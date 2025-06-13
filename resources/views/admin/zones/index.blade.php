@@ -4,13 +4,11 @@
 
 @section('top-action')
 
-<a
-href={{route('admin.zones.create')}}
-class="flex flex-row items-center text-sm bg-primary text-primary-foreground py-3 px-4 rounded-md text-center hover:bg-primary/90"
->
-<x-heroicon-s-plus-circle class="mr-1 h-5 w-5" />
-Create New
-</a>
+    <a href={{route('admin.zones.create')}}
+        class="flex flex-row items-center text-sm bg-primary text-primary-foreground py-3 px-4 rounded-md text-center hover:bg-primary/90">
+        <x-heroicon-s-plus-circle class="mr-1 h-5 w-5" />
+        Create New
+    </a>
 
 @endsection
 
@@ -28,8 +26,10 @@ Create New
         @endif
 
 
-       
-        @livewire('admin.zones-list-with-search', ['zones' => $zones])
+
+        @livewire('admin.zones-list-with-search')
     </div>
+    {{-- @livewireScripts
+    @livewireStyles --}}
 
 @endsection

@@ -30,6 +30,7 @@
     </div>
 
     @livewireScripts <!-- This should be just before </body> -->
+    @livewireStyles
 </body>
 
 </html>

@@ -106,7 +106,8 @@
                                     <tr key="{{ $link->id }}" class="hover:bg-muted/20">
                                         <td class="flex flex-row gap-2 items-center px-4 py-4 font-medium text-sm">
                                             <x-heroicon-o-globe-alt class="h-4 w-4 text-gray-500" />
-                                            {{ $link->denomination->name }}
+                                            {{ $link->denomination?->name ?? 'N/A' }}
+
                                         </td>
                                         <td class="px-4 py-4">
                                             <div class="flex items-center gap-2">
