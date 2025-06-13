@@ -92,7 +92,8 @@ class DenominationController extends Controller
      */
     public function edit(Denomination $denomination)
     {
-        //
+        $zones = Zone::all();
+        return view('admin.denominations.edit', compact(['zones', 'denomination']));
     }
 
     /**
@@ -100,14 +101,36 @@ class DenominationController extends Controller
      */
     public function update(Request $request, Denomination $denomination)
     {
-        //
+        // Validate input
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:denominations,slug,' . $denomination->id,
+            'population' => 'required|integer|min:0',
+            'country' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'zone_id' => 'required|exists:zones,id',
+        ]);
+
+        // Update the model
+        $denomination->update($validated);
+
+        // Redirect with success message
+        return redirect()
+            ->route('admin.denominations.edit', $denomination)
+            ->with('success', 'Denomination updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Denomination $denomination)
     {
-        //
+        $denomination->delete();
+
+        return redirect()
+            ->route('admin.denominations')
+            ->with('success', 'Denomination deleted successfully.');
     }
+
 }

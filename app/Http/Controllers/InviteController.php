@@ -32,8 +32,13 @@ class InviteController extends Controller
     public function process(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'email' => 'required|email|unique:invites,email|max:255'
+            'email' => 'required|email|email|max:255'
         ]);
+
+        // Check if invite already exists
+        if (Invite::where('email', $validated['email'])->exists()) {
+            return redirect()->back()->with('error', 'An invitation has already been sent to this email address.');
+        }
 
         $token = $this->generateUniqueInviteToken();
 
@@ -45,13 +50,20 @@ class InviteController extends Controller
         try {
             Mail::to($validated['email'])->send(new InviteCreated($invite));
         } catch (\Exception $e) {
-            echo $e->getMessage();
             $invite->delete(); // Rollback if email fails
-            throw $e;
+
+            \Log::error('Failed to send invitation email', [
+                'email' => $validated['email'],
+                'error' => $e->getMessage()
+            ]);
+
+            return redirect()->back()->with('error', $e->getMessage() . 'Sending invitation failed. Please try again later.');
         }
 
-        return redirect()->back()->with('success', 'Invitation sent successfully');
+        return redirect()->back()->with('success', 'Invitation sent successfully.');
     }
+
+
 
     /**
      * Generate a unique invite token.
@@ -60,7 +72,7 @@ class InviteController extends Controller
      */
     protected function generateUniqueInviteToken(): string
     {
-        return Str::random(16); // Increased length for better security
+        return Str::random(32); // Increased length for better security
     }
 
     public function accept($token): View
@@ -69,10 +81,10 @@ class InviteController extends Controller
         if (!$invite = Invite::where('token', $token)->first()) {
             abort(404, 'Invalid or expired invitation link');
         }
-        
+
         return view('auth.invite-register', compact('invite'));
     }
-    
+
     public function completeRegistration(Request $request, $token): RedirectResponse
     {
         // Validate the request
@@ -81,27 +93,27 @@ class InviteController extends Controller
             'last_name' => 'required|string|max:255',
             'password' => 'required|string|min:8|confirmed',
         ]);
-    
+
         // Verify the invite still exists
         if (!$invite = Invite::where('token', $token)->first()) {
             return redirect()->route('login')->with('error', 'Invalid or expired invitation');
         }
-    
+
         // Create the user
         $user = User::create([
             'email' => $invite->email,
             'first_name' => $validated['first_name'],
             'last_name' => $validated['last_name'],
-            'name'=>$validated['first_name'],
+            'name' => $validated['first_name'],
             'password' => Hash::make($validated['password']),
         ]);
-    
+
         // Delete the used invite
         $invite->delete();
-    
+
         // Optionally log the user in automatically
         auth()->login($user);
-    
+
         return redirect()->route('dashboard')->with('success', 'Account created successfully!');
     }
 }

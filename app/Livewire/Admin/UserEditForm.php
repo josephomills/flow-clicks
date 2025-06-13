@@ -18,6 +18,7 @@ class UserEditForm extends Component
     public $denomination_search = '';
     public $search_results = [];
     public $show_dropdown = false;
+    public $allVisibleSelected = false;
 
     protected $rules = [
         'first_name' => 'required|string|max:255',
@@ -48,6 +49,7 @@ class UserEditForm extends Component
             $this->search_results = [];
             $this->show_dropdown = false;
         }
+        $this->checkAllVisibleSelected();
     }
 
     public function searchDenominations()
@@ -64,6 +66,8 @@ class UserEditForm extends Component
                 ];
             })
             ->toArray();
+
+        $this->checkAllVisibleSelected();
     }
 
     public function toggleDenomination($denominationId)
@@ -81,10 +85,47 @@ class UserEditForm extends Component
             $this->assigned_denominations[] = $denominationId;
         }
 
+        $this->checkAllVisibleSelected();
+
         // Refresh search results to update selection state
         if (strlen($this->denomination_search) >= 1) {
             $this->searchDenominations();
         }
+    }
+
+    public function selectAllVisible()
+    {
+        $visibleIds = collect($this->search_results)->pluck('id')->toArray();
+
+        if ($this->allVisibleSelected) {
+            // Remove all visible denominations
+            $this->assigned_denominations = array_diff($this->assigned_denominations, $visibleIds);
+        } else {
+            // Add all visible denominations that aren't already selected
+            $newSelections = array_diff($visibleIds, $this->assigned_denominations);
+            $this->assigned_denominations = array_merge($this->assigned_denominations, $newSelections);
+        }
+
+        $this->allVisibleSelected = !$this->allVisibleSelected;
+        $this->searchDenominations(); // Refresh to update checkboxes
+    }
+
+    public function checkAllVisibleSelected()
+    {
+        if (empty($this->search_results)) {
+            $this->allVisibleSelected = false;
+            return;
+        }
+
+        $visibleIds = collect($this->search_results)->pluck('id')->toArray();
+        $this->allVisibleSelected = count(array_intersect($visibleIds, $this->assigned_denominations)) === count($visibleIds);
+    }
+
+    public function clearAllDenominations()
+    {
+        $this->assigned_denominations = [];
+        $this->allVisibleSelected = false;
+        $this->searchDenominations(); // Refresh if dropdown is open
     }
 
     public function removeDenomination($denominationId)
@@ -96,6 +137,7 @@ class UserEditForm extends Component
         });
 
         $this->assigned_denominations = array_values($this->assigned_denominations);
+        $this->checkAllVisibleSelected();
 
         // Refresh search results if dropdown is open
         if ($this->show_dropdown && strlen($this->denomination_search) >= 1) {
@@ -119,6 +161,7 @@ class UserEditForm extends Component
                     ];
                 })
                 ->toArray();
+            $this->checkAllVisibleSelected();
         }
     }
 
@@ -132,6 +175,7 @@ class UserEditForm extends Component
         $this->denomination_search = '';
         $this->search_results = [];
         $this->show_dropdown = false;
+        $this->allVisibleSelected = false;
     }
 
     public function save()
