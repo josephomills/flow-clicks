@@ -207,7 +207,7 @@ Route::post('invite/complete/{token}', [InviteController::class, 'completeRegist
 Route::get('/test-email', function () {
     try {
         Mail::raw('This is a plain test email from Laravel.', function ($message) {
-            $message->to('test@example.com') // Replace with your test email
+            $message->to('komla.wilson.the.ceo@gmail.com') // Replace with your test email
                 ->subject('Laravel Test Email');
         });
 

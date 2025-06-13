@@ -72,7 +72,7 @@ class InviteController extends Controller
      */
     protected function generateUniqueInviteToken(): string
     {
-        return Str::random(32); // Increased length for better security
+        return Str::random(16); // Increased length for better security
     }
 
     public function accept($token): View
