@@ -12,6 +12,7 @@ class UserEditForm extends Component
     public $first_name;
     public $last_name;
     public $email;
+    public $role; // Add this with your other properties
     public $denomination;
     public $allowMultiLinks = false;
     public $assigned_denominations = [];
@@ -37,6 +38,7 @@ class UserEditForm extends Component
         $this->email = $user->email;
         $this->denomination = $user->denomination_id;
         $this->allowMultiLinks = $user->role === 'admin';
+        $this->role = $user->role === 'admin'; // This will be true/false for the toggle
         $this->assigned_denominations = $user->denominations->pluck('id')->toArray();
     }
 
@@ -193,14 +195,12 @@ class UserEditForm extends Component
         $this->validate($rules);
 
         try {
-            $role = $this->allowMultiLinks ? 'admin' : 'user';
-
             $this->user->update([
                 'first_name' => $this->first_name,
                 'last_name' => $this->last_name,
                 'email' => $this->email,
                 'denomination_id' => $this->denomination,
-                'role' => $role,
+                'role' => $this->role ? 'admin' : 'user', // Convert boolean to role string
             ]);
 
             // Sync assigned denominations
@@ -214,7 +214,6 @@ class UserEditForm extends Component
             session()->flash('error', 'An error occurred while updating the user.');
         }
     }
-
     public function cancel()
     {
         return redirect()->route('admin.users.index');
