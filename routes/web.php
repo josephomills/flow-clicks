@@ -8,13 +8,13 @@ use App\Http\Controllers\LinkController;
 use App\Http\Controllers\LinkTypeController;
 use App\Http\Controllers\UrlRedirectController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserDenominationController;
 use App\Http\Controllers\UserLinkController;
 use App\Http\Controllers\ZoneController;
 use App\Http\Controllers\AdminSettingsController;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Mail;
 
 
 Route::get('/', function () {
@@ -63,6 +63,11 @@ Route::resource(
 
     ]
 )->middleware(['auth', 'verified', 'role:user']);
+
+Route::get('/denominations', [UserDenominationController::class, 'index'])
+    ->middleware(['auth', 'verified', 'role:user'])
+    ->name('denominations.index');
+
 // Route::get('/links/{link}/analytics', [LinkController::class, 'analytics'])->name('links.analytics');
 
 
@@ -183,19 +188,34 @@ Route::domain('click.localhost')->group(function () {
 
 
 // Route::view('/invite', 'admin.users.invite')->name('admin.invite');
+
+// show the invite form
 Route::get('invite', [InviteController::class, 'invite'])->name('invite');
+
+// process the invite form submission
 Route::post('invite', [InviteController::class, 'process'])->name('process');
+
 // {token} is a required parameter that will be exposed to us in the controller method
 Route::get('accept/{token}', [InviteController::class, 'accept'])->name('invite.accept');
 Route::post('invite/complete/{token}', [InviteController::class, 'completeRegistration'])->name('invite.complete');
 
 
-Route::get('/test-email', function () {
-    Mail::raw('This is a test email from Laravel.', function ($message) {
-        $message->to('komla.wilson.the.ceo@gmail.com')  // Change this to your email
-                ->subject('Laravel Test Email');
-    });
 
-    return 'Test email sent!';
+
+
+
+Route::get('/test-email', function () {
+    try {
+        Mail::raw('This is a plain test email from Laravel.', function ($message) {
+            $message->to('test@example.com') // Replace with your test email
+                ->subject('Laravel Test Email');
+        });
+
+        return 'Test email sent successfully.';
+    } catch (\Exception $e) {
+        \Log::error('Test email failed', ['error' => $e->getMessage()]);
+        return 'Failed to send test email: ' . $e->getMessage();
+    }
 });
+
 require __DIR__ . '/auth.php';
