@@ -208,15 +208,14 @@ class UserEditForm extends Component
 
             session()->flash('success', 'User updated successfully!');
 
-            return redirect()->route('admin.users.index');
-
+            return redirect()->route('admin.users');
         } catch (\Exception $e) {
             session()->flash('error', 'An error occurred while updating the user.');
         }
     }
     public function cancel()
     {
-        return redirect()->route('admin.users.index');
+        return redirect()->route('admin.users');
     }
 
     public function render()
