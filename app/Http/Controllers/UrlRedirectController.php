@@ -128,7 +128,7 @@ class UrlRedirectController extends Controller
                 'device_type' =>$this->getDeviceType(),
                 'ip_address' => $currentIp,
                 'referrer' => request()->header('referer') ?? 'Unknown',
-                'country_code' => 'GH', // Hardcoded for now
+                'country_code' => $this->getIpLocation($currentIp)['country'] ?? 'Unknown',
                 'platform' => $platform, // Real OS data
                 'browser' => $browserInfo, // Real Browser data
                 'lon' => 76,          // Stub
