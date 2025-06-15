@@ -117,7 +117,7 @@
                                                     {{ $domain }}/{{ $link->short_url }}/{{ $link->denomination->slug ?? 'psc' }}
                                                 </a>
                                                 <button
-                                                    onclick="navigator.clipboard.writeText('{{ $domain }}/{{ $link->short_url }}/{{ auth()->user()->denomination->slug ?? 'psc' }}')"
+                                                    onclick="navigator.clipboard.writeText('{{ $domain }}/{{ $link->short_url }}/{{ $link->denomination->slug ?? 'psc' }}')"
                                                     class="p-1 rounded-md hover:bg-muted text-muted-foreground"
                                                     title="Copy to clipboard">
                                                     <x-heroicon-o-clipboard class="h-4 w-4" />

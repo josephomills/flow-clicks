@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 class CreateLinkForm extends Component
 {
     public $title;
-    public $original_url = 'https://';
+    public $original_url = '';
     public $description;
     public $denominations = [];
     public $link_type_id;
