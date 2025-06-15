@@ -34,7 +34,7 @@ class LinksListWithSearch extends Component
 
   public function render()
   {
-    $shortDomain = 'http://click.localhost:8000';
+    $domain = env('APP_URL'). '/click';
     $linkTypes = LinkType::all();
     $linkGroups = LinkGroup::where('user_id', auth()->id())->get();
 
@@ -82,7 +82,7 @@ class LinksListWithSearch extends Component
       'links',
       'linkTypes',
       'linkGroups',
-      'shortDomain',
+      'domain',
       'groupedLinks',
       'groupNames'
     ]));
