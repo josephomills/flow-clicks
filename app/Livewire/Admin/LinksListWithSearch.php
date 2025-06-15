@@ -40,7 +40,7 @@ class LinksListWithSearch extends Component
 
     // Get links with filtering
     $linksQuery = Link::with(['link_type', 'link_group'])
-      ->where('user_id', auth()->id())
+      // ->where('user_id', auth()->id())
       ->when($this->search, function ($query) {
         $query->where(function ($q) {
           $q->where('short_url', 'like', '%' . $this->search . '%')
