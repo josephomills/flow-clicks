@@ -37,9 +37,15 @@
         @endif
 
         <form wire:submit="submit" class="space-y-6">
+             <div class="space-y-2">
+                <label for="title" class="text-sm font-semibold text-muted-foreground">Original Url</label>
+                <input type="url" wire:model="original_url" id="original_url" placeholder="https://example.com"
+                class="w-full h-10 rounded-md border border-input bg-background px-4 py-2" />
+                @error('original_url') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
             <!-- Title Field -->
             <div class="space-y-2">
-                <label for="title" class="text-sm font-semibold text-muted-foreground">Title</label>
+                <label for="title" class="text-sm font-semibold text-muted-foreground">Label(opitonal)</label>
                 <input type="text" wire:model="title" id="title" placeholder="My Awesome Link"
                     class="w-full h-10 rounded-md border border-input bg-background px-4 py-2" />
                 @error('title') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
@@ -47,32 +53,12 @@
 
             <!-- URL Field -->
             <div class="flex flex-col md:flex-row gap-4">
-                <div class="flex-1 relative">
-                    <input type="url" wire:model="original_url" id="original_url" placeholder="https://example.com"
-                        class="w-full h-10 rounded-md border border-input bg-background px-4 py-2" />
-                    @error('original_url') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                </div>
+              
 
-                <div class="w-full md:w-auto">
-                    <button type="submit" wire:loading.attr="disabled"
-                        class="flex items-center justify-center text-sm text-white bg-primary rounded-md hover:bg-primary/90 px-4 py-2 h-10 w-full md:w-32 disabled:opacity-50">
-                        <span wire:loading.remove>Shorten</span>
-                        <span wire:loading>Processing...</span>
-                        <x-heroicon-o-arrow-right class="h-4 w-4 ml-2" wire:loading.remove />
-                    </button>
-                </div>
+           
             </div>
 
-            <!-- Description Field -->
-            <div class="space-y-2">
-                <label for="description" class="text-sm font-semibold text-muted-foreground">Description
-                    (Optional)</label>
-                <textarea wire:model="description" id="description" placeholder="Brief description of this link..."
-                    class="w-full rounded-md border border-input bg-background px-4 py-2 resize-none"
-                    rows="3"></textarea>
-                @error('description') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-            </div>
-
+       
             <!-- Denomination Selection -->
             <div class="space-y-2">
                 <label class="text-sm font-semibold text-muted-foreground">Select Denominations (Optional)</label>
@@ -134,6 +120,16 @@
                 </div>
                 @error('link_type_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 @error('denominations') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
+                  <div class="flex justify-end flex-row">
+                  <div class="w-full md:w-auto">
+                    <button type="submit" wire:loading.attr="disabled"
+                        class="flex items-center justify-center text-sm text-white bg-primary rounded-md hover:bg-primary/90 px-4 py-2 h-10 w-full md:w-32 disabled:opacity-50">
+                        <span wire:loading.remove>Shorten</span>
+                        <span wire:loading>Processing...</span>
+                        <x-heroicon-o-arrow-right class="h-4 w-4 ml-2" wire:loading.remove />
+                    </button>
+                </div>
             </div>
         </form>
 
