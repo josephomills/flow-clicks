@@ -21,6 +21,9 @@ class CreateLinkForm extends Component
     public $created_links = [];
     public $link_group;
     public $showResults = false;
+    public $domain;
+    
+
 
     protected $rules = [
         'title' => 'required|string|max:255',
@@ -42,6 +45,7 @@ class CreateLinkForm extends Component
 
     public function mount()
     {
+         $this->domain = env('APP_URL');
         // Set default denomination if user has one
         if (Auth::user()->denomination_id) {
             $this->denominations = [Auth::user()->denomination_id];
@@ -103,7 +107,7 @@ class CreateLinkForm extends Component
                 $this->created_links[] = [
                     'link' => $link,
                     'denomination' => $denomination,
-                    'full_url' => url($shortUrl),
+                    'full_url' => $this->domain . '/click/' . $shortUrl . '/'. Denomination::find($denominationId)->slug,
                 ];
             }
 
