@@ -34,13 +34,13 @@ class LinksListWithSearch extends Component
 
   public function render()
   {
-    $shortDomain = 'http://click.localhost:8000';
+    $domain = env('APP_URL'). '/click';
     $linkTypes = LinkType::all();
     $linkGroups = LinkGroup::where('user_id', auth()->id())->get();
 
     // Get links with filtering
     $linksQuery = Link::with(['link_type', 'link_group'])
-      ->where('user_id', auth()->id())
+      // ->where('user_id', auth()->id())
       ->when($this->search, function ($query) {
         $query->where(function ($q) {
           $q->where('short_url', 'like', '%' . $this->search . '%')
@@ -82,7 +82,7 @@ class LinksListWithSearch extends Component
       'links',
       'linkTypes',
       'linkGroups',
-      'shortDomain',
+      'domain',
       'groupedLinks',
       'groupNames'
     ]));
