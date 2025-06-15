@@ -111,13 +111,13 @@
                                         </td>
                                         <td class="px-4 py-4">
                                             <div class="flex items-center gap-2">
-                                                <a href="{{ $shortDomain }}/{{ $link->short_url }}/{{ $link->denomination->slug ?? 'psc' }}"
+                                                <a href="{{ $domain }}/{{ $link->short_url }}/{{ $link->denomination->slug ?? 'psc' }}"
                                                     target="_blank"
                                                     class="text-muted-foreground hover:text-primary hover:underline">
-                                                    click.localhost/{{ $link->short_url }}/{{ $link->denomination->slug ?? 'psc' }}
+                                                    {{ $domain }}/{{ $link->short_url }}/{{ $link->denomination->slug ?? 'psc' }}
                                                 </a>
                                                 <button
-                                                    onclick="navigator.clipboard.writeText('{{ $shortDomain }}/{{ $link->short_url }}/{{ auth()->user()->denomination->slug ?? 'psc' }}')"
+                                                    onclick="navigator.clipboard.writeText('{{ $domain }}/{{ $link->short_url }}/{{ auth()->user()->denomination->slug ?? 'psc' }}')"
                                                     class="p-1 rounded-md hover:bg-muted text-muted-foreground"
                                                     title="Copy to clipboard">
                                                     <x-heroicon-o-clipboard class="h-4 w-4" />

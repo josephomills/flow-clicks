@@ -107,7 +107,7 @@ class CreateLinkForm extends Component
                 $this->created_links[] = [
                     'link' => $link,
                     'denomination' => $denomination,
-                    'full_url' => $this->domain . '/clicks/' . $shortUrl . '/'. Denomination::find($denominationId)->slug,
+                    'full_url' => $this->domain . '/click/' . $shortUrl . '/'. Denomination::find($denominationId)->slug,
                 ];
             }
 
