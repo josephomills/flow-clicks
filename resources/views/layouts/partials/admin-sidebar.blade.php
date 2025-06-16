@@ -76,6 +76,19 @@
 </a>
 
     <a
+    href="/admin/clicks"
+    class="flex items-center justify-between p-3 rounded-md bg-background border hover:bg-muted/50"
+>
+    <div class="flex items-center">
+        <x-heroicon-o-cursor-arrow-rays class="mr-2 h-5 w-5 text-muted-foreground" />
+        <span>Link Clicks</span>
+    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-muted-foreground">
+        <polyline points="9 18 15 12 9 6"/>
+    </svg>
+</a>
+
+    <a
         href="/admin/settings"
         class="flex items-center justify-between p-3 rounded-md bg-background border hover:bg-muted/50"
     >

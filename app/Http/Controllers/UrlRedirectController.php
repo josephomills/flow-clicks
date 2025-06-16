@@ -12,66 +12,68 @@ use Illuminate\Http\Request;
 class UrlRedirectController extends Controller
 {
     protected function getIpLocation($ipAddress)
-{
-    $response = @file_get_contents("https://ipinfo.io/{$ipAddress}/json");
+    {
+        $response = @file_get_contents("https://ipinfo.io/{$ipAddress}/json");
 
-    if ($response) {
-        $data = json_decode($response, true);
+        if ($response) {
+            $data = json_decode($response, true);
 
-        // Handle bogon/private IPs (like 127.0.0.1 or local network IPs)
-        if (isset($data['bogon']) && $data['bogon']) {
+            // Handle bogon/private IPs (like 127.0.0.1 or local network IPs)
+            if (isset($data['bogon']) && $data['bogon']) {
+                return [
+                    'city' => 'Private IP',
+                    'region' => null,
+                    'country' => null,
+                    'lat' => null,
+                    'lon' => null,
+                ];
+            }
+
+            // Get lat/lon from 'loc' field (e.g. "37.3860,-122.0838")
+            $lat = null;
+            $lon = null;
+            if (!empty($data['loc'])) {
+                [$lat, $lon] = explode(',', $data['loc']);
+            }
+
             return [
-                'city' => 'Private IP',
-                'region' => null,
-                'country' => null,
-                'lat' => null,
-                'lon' => null,
+                'city' => $data['city'] ?? null,
+                'region' => $data['region'] ?? null,
+                'country' => $data['country'] ?? null,
+                'lat' => $lat,
+                'lon' => $lon,
             ];
         }
 
-        // Get lat/lon from 'loc' field (e.g. "37.3860,-122.0838")
-        $lat = null;
-        $lon = null;
-        if (!empty($data['loc'])) {
-            [$lat, $lon] = explode(',', $data['loc']);
-        }
-
-        return [
-            'city' => $data['city'] ?? null,
-            'region' => $data['region'] ?? null,
-            'country' => $data['country'] ?? null,
-            'lat' => $lat,
-            'lon' => $lon,
-        ];
+        return null;
     }
-
-    return null;
-}
 
     protected function getDeviceType() {
-    $detect = new MobileDetect();
-    // $detect->setUserAgent(request()->header('User-Agent'));
-    
-    if ($detect->isTablet()) {
-        return 'Tablet';
-    } elseif ($detect->isMobile()) {
-        return 'Mobile';
+        $detect = new MobileDetect();
+        // $detect->setUserAgent(request()->header('User-Agent'));
+        
+        if ($detect->isTablet()) {
+            return 'Tablet';
+        } elseif ($detect->isMobile()) {
+            return 'Mobile';
+        }
+        return 'Desktop';
     }
-    return 'Desktop';
-}
 
-
-
-    public function index(string $short_url, string $denomination)
+    public function index(string $short_url, string $denomination = null)
     {
-
-    //    dd($this->getIpLocation(request()->ip()));
-        // Try to get the denomination
-        $identified_denomination = Denomination::where('slug', $denomination)->first();
-
-        // If denomination is missing, show redirecter for now
-        if (!$identified_denomination) {
-            return view('redirecter', ['message' => 'Unknown Denomination']);
+        // dd($this->getIpLocation(request()->ip()));
+        
+        $identified_denomination = null;
+        
+        // Try to get the denomination only if it's provided
+        if ($denomination) {
+            $identified_denomination = Denomination::where('slug', $denomination)->first();
+            
+            // If denomination is provided but not found, show error
+            if (!$identified_denomination) {
+                return view('redirecter', ['message' => 'Unknown Denomination']);
+            }
         }
 
         // Try to get the link
@@ -88,7 +90,6 @@ class UrlRedirectController extends Controller
         $existingClick = LinkClick::where('link_id', $identified_link->id)
             ->where('ip_address', $currentIp)
             ->first();
-            
 
         // Only log the click and increment counter if it's a new IP for this link
         if (!$existingClick) {
@@ -123,9 +124,9 @@ class UrlRedirectController extends Controller
             // Log the click with the real platform and browser
             $newClick = [
                 'link_id' => $identified_link->id,
-                'denomination_id' => $identified_denomination->id,
+                'denomination_id' => $identified_denomination ? $identified_denomination->id : null, // Handle null denomination
                 'link_type_id' => $identified_link->link_type->id,
-                'device_type' =>$this->getDeviceType(),
+                'device_type' => $this->getDeviceType(),
                 'ip_address' => $currentIp,
                 'referrer' => request()->header('referer') ?? 'Unknown',
                 'country_code' => $this->getIpLocation($currentIp)['country'] ?? 'Unknown',
