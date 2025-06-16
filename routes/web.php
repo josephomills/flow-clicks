@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminClicksController;
 use App\Http\Controllers\AdminLinkController;
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\DenominationController;
@@ -135,6 +136,24 @@ Route::resource(
             'edit' => 'admin.links.edit',
             'update' => 'admin.links.update',
             'destroy' => 'admin.links.destroy',
+        ],
+
+
+    ]
+)->middleware(['auth', 'verified', 'role:admin']);
+
+Route::resource(
+    '/admin/clicks',
+    AdminClicksController::class,
+    [
+        'names' => [
+            'index' => 'admin.clicks',
+            'create' => 'admin.clicks.create',
+            'store' => 'admin.clicks.store',
+            'show' => 'admin.clicks.show',
+            'edit' => 'admin.clicks.edit',
+            'update' => 'admin.clicks.update',
+            'destroy' => 'admin.clicks.destroy',
         ],
 
 
