@@ -20,7 +20,7 @@ use Illuminate\Support\Arr;
 Route::get('/', function () {
     return auth()->check()
         ? redirect()->route('dashboard')
-        : view('home.index');
+        : redirect('login');
 });
 
 Route::get('dashboard', function () {
