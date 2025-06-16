@@ -25,7 +25,6 @@ class CreateLinkForm extends Component
     public $domain;
 
 
-
     protected $rules = [
         'title' => 'required|string|max:255',
         'original_url' => 'required|url',

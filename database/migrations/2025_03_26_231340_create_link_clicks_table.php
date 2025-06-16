@@ -16,11 +16,11 @@ return new class extends Migration
 Schema::create('link_clicks', function (Blueprint $table) {
     $table->id();
     $table->foreignId('link_id')->constrained()->cascadeOnDelete();
-    $table->foreignId('denomination_id')->constrained()->cascadeOnDelete(); // Fixed this line
+    $table->foreignId('denomination_id')->nullable()->constrained()->cascadeOnDelete();
     $table->foreignId('link_type_id')->constrained('link_types')->cascadeOnDelete();
     // location and device data
     $table->string('ip_address', 45)->nullable(); // Supports IPv6
-    $table->char('country_code', 2)->nullable(); // ISO 3166-1 alpha-2
+    $table->char('country_code', 50)->nullable(); // ISO 3166-1 alpha-2
     $table->string('device_type', 20)->nullable(); // mobile/desktop/tablet
     $table->string('browser', 50)->nullable();
     $table->string('platform', 50)->nullable();

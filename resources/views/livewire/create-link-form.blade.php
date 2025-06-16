@@ -41,6 +41,7 @@
                 <label for="title" class="text-sm font-semibold text-muted-foreground">Original URL *</label>
                 <input type="url" wire:model="original_url" id="original_url" placeholder="https://example.com"
                     class="w-full h-10 rounded-md border border-input bg-background px-4 py-2" />
+
                 @error('original_url') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
             <!-- Title Field -->
@@ -53,12 +54,7 @@
 
             <!-- URL Field -->
             <div class="flex flex-col md:flex-row gap-4">
-
-
-
             </div>
-
-
             <!-- Denomination Selection -->
             <div class="space-y-2">
                 <label class="text-sm font-semibold text-muted-foreground">Select Denomination(s) (optional)</label>

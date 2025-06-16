@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminClicksController;
 use App\Http\Controllers\AdminLinkController;
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\DenominationController;
@@ -20,7 +21,7 @@ use Illuminate\Support\Arr;
 Route::get('/', function () {
     return auth()->check()
         ? redirect()->route('dashboard')
-        : view('home.index');
+        : redirect('login');
 });
 
 Route::get('dashboard', function () {
@@ -142,6 +143,24 @@ Route::resource(
 )->middleware(['auth', 'verified', 'role:admin']);
 
 Route::resource(
+    '/admin/clicks',
+    AdminClicksController::class,
+    [
+        'names' => [
+            'index' => 'admin.clicks',
+            'create' => 'admin.clicks.create',
+            'store' => 'admin.clicks.store',
+            'show' => 'admin.clicks.show',
+            'edit' => 'admin.clicks.edit',
+            'update' => 'admin.clicks.update',
+            'destroy' => 'admin.clicks.destroy',
+        ],
+
+
+    ]
+)->middleware(['auth', 'verified', 'role:admin']);
+
+Route::resource(
     '/admin/users',
     UserController::class,
     [
@@ -178,7 +197,13 @@ Route::resource(
 )->middleware(['auth', 'verified', 'role:admin']);
 
 Route::prefix('click')->group(function () {
-    Route::get('/{short_url}/{denomination}', [UrlRedirectController::class, 'index'])->name('links.analytics');
+    // Route with denomination (original functionality)
+    Route::get('/{short_url}/{denomination}', [UrlRedirectController::class, 'index'])
+        ->name('links.analytics.with_denomination');
+    
+    // Route without denomination (new functionality)
+    Route::get('/{short_url}', [UrlRedirectController::class, 'index'])
+        ->name('links.analytics');
 });
 
 Route::domain('click.localhost')->group(function () {
