@@ -197,7 +197,13 @@ Route::resource(
 )->middleware(['auth', 'verified', 'role:admin']);
 
 Route::prefix('click')->group(function () {
-    Route::get('/{short_url}/{denomination}', [UrlRedirectController::class, 'index'])->name('links.analytics');
+    // Route with denomination (original functionality)
+    Route::get('/{short_url}/{denomination}', [UrlRedirectController::class, 'index'])
+        ->name('links.analytics.with_denomination');
+    
+    // Route without denomination (new functionality)
+    Route::get('/{short_url}', [UrlRedirectController::class, 'index'])
+        ->name('links.analytics');
 });
 
 Route::domain('click.localhost')->group(function () {
