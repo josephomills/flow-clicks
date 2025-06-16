@@ -12,6 +12,11 @@
 
 @section('content')
 <div class="max-w-6xl mx-auto px-4 py-6">
+    @if (session()->has('success'))
+    <div class="mb-6 p-4 bg-green-100 text-green-700 rounded-md text-sm">
+        {{ session('success') }}
+    </div>
+    @endif
     {{-- Header --}}
     <div class="mb-6">
         <h1 class="text-2xl font-bold text-foreground">
