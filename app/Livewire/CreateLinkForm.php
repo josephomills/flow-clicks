@@ -10,6 +10,7 @@ use App\Models\LinkGroup;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CreateLinkForm extends Component
 {
@@ -22,7 +23,6 @@ class CreateLinkForm extends Component
     public $link_group;
     public $showResults = false;
     public $domain;
-    
 
 
     protected $rules = [
@@ -45,7 +45,7 @@ class CreateLinkForm extends Component
 
     public function mount()
     {
-         $this->domain = env('APP_URL');
+        $this->domain = env('APP_URL');
         // Set default denomination if user has one
         if (Auth::user()->denomination_id) {
             $this->denominations = [Auth::user()->denomination_id];
@@ -107,7 +107,7 @@ class CreateLinkForm extends Component
                 $this->created_links[] = [
                     'link' => $link,
                     'denomination' => $denomination,
-                    'full_url' => $this->domain . '/click/' . $shortUrl . '/'. Denomination::find($denominationId)->slug,
+                    'full_url' => $this->domain . '/click/' . $shortUrl . '/' . Denomination::find($denominationId)->slug,
                 ];
             }
 
@@ -118,14 +118,15 @@ class CreateLinkForm extends Component
                 return;
             }
 
-            $this->showResults = true;
             session()->flash('success', 'Short links created successfully!');
 
+            // Redirect to the analytics page of the created link group
+            return redirect()->route('admin.analytics.show', ['analytic' => $this->link_group->id]);
         } catch (\Exception $e) {
             DB::rollBack();
             dd($e);
             session()->flash('error', 'An error occurred while creating the links. Please try again.');
-            \Log::error('Link creation error: ' . $e->getMessage());
+            Log::error('Link creation error: ' . $e->getMessage());
         }
     }
 

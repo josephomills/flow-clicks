@@ -9,13 +9,11 @@
                 <input
                     type="text"
                     placeholder="Search links by type, url or title..."
-                    class="pl-10 w-full h-10 rounded-md border border-input bg-background px-3 py-2"
-                />
+                    class="pl-10 w-full h-10 rounded-md border border-input bg-background px-3 py-2 focus:ring-ring" />
             </div>
             <div class="w-full md:w-48">
                 <select
-                    class="w-full h-10 rounded-md border border-input bg-background px-3 py-2"
-                >
+                    class="w-full h-10 rounded-md border border-input bg-background px-3 py-2 focus:ring-ring">
                     <option value="">All Types</option>
                     @foreach($linkTypes as $type)
                     <option value="{{ $type->id }}">{{ $type->name }}</option>
@@ -40,9 +38,9 @@
             </a>
         </div>
     </div>
-        
+
     @else
-        {{-- Links Table --}}
+    {{-- Links Table --}}
     <div class="bg-background rounded-md border overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full">
@@ -57,28 +55,32 @@
                 </thead>
                 <tbody class="divide-y text-sm">
                     @foreach ($links as $link)
+                    @php
+                    $generatedLink = "{$shortDomain}/{$link->short_url}";
+                    if ($link->denomination) {
+                    $generatedLink .= "/{$link->denomination->slug}";
+                    }
+                    @endphp
                     <tr key="{{ $link->id }}" class="hover:bg-muted/20">
                         <td class="flex flex-row gap-2 items-center px-4 py-4 font-medium text-sm">
-                            <x-heroicon-o-globe-alt class="h-4 w-4 text-gray-500"/>
+                            <x-heroicon-o-globe-alt class="h-4 w-4 text-gray-500" />
                             {{ $link->title }}
                         </td>
                         <td class="px-4 py-4">
                             <div class="flex items-center gap-2">
-                                <a href="{{ $shortDomain }}/{{ $link->short_url }}" 
-                                   target="_blank"
-                                   class="text-muted-foreground hover:text-primary hover:underline">
-                                    flc.click/{{ $link->short_url }}
-                                </a>
-                                <button 
-                                    onclick="navigator.clipboard.writeText('{{ $shortDomain }}/{{ $link->short_url }}/{{ auth()->user()->denomination->slug ?? 'psc'}}')"    
-                                    class="p-1 rounded-md hover:bg-muted text-muted-foreground"
+                                <p class="text-muted-foreground hover:text-primary">
+                                    {{ $link->short_url }}
+                                </p>
+                                <button
+                                    onclick="navigator.clipboard.writeText('{{ $generatedLink }}')"
+                                    class="p-1 rounded-md hover:bg-accent hover:text-accent-foreground text-muted-foreground"
                                     title="Copy to clipboard">
-                                    <x-heroicon-o-clipboard class="h-4 w-4" />
+                                    <x-heroicon-o-document-duplicate class="h-6 w-6" />
                                 </button>
                             </div>
                         </td>
                         <td class="px-4 py-4">
-                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-muted text-muted-foreground">
+                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-accent text-accent-foreground">
                                 {{ $link->link_type->name ?? 'None' }}
                             </span>
                         </td>
@@ -87,16 +89,16 @@
                         </td>
                         <td class="px-4 py-4">
                             <div class="flex items-center space-x-2">
-                                <a href="{{ route('admin.links.edit', $link->id) }}" class="p-1 rounded-md hover:bg-muted" title="Edit">
+                                <a href="{{ route('admin.links.edit', $link->id) }}" class="p-1 rounded-md hover:bg-accent hover:text-accent-foreground" title="Edit">
                                     <x-heroicon-c-pencil class="h-4 w-4" />
-                                </a>
-                                <form method="POST" action="{{ route('admin.links.destroy', $link->id) }}" onsubmit="return confirm('Are you sure you want to delete this link?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="p-1 rounded-md hover:bg-muted text-red-500" title="Delete">
-                                        <x-heroicon-o-trash class="h-4 w-4" />
-                                    </button>
-                                </form>
+                                    a>
+                                    <form method="POST" action="{{ route('admin.links.destroy', $link->id) }}" onsubmit="return confirm('Are you sure you want to delete this link?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="p-1 rounded-md hover:bg-destructive hover:text-destructive-foreground text-destructive" title="Delete">
+                                            <x-heroicon-o-trash class="h-4 w-4" />
+                                        </button>
+                                    </form>
                             </div>
                         </td>
                     </tr>
@@ -111,5 +113,5 @@
         </div>
     </div>
     @endif
-    
+
 </div>
