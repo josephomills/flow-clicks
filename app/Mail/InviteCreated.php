@@ -12,7 +12,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Address;
 
 // class InviteCreated extends Mailable implements ShouldQueue
-class InviteCreated extends Mailable 
+class InviteCreated extends Mailable
 {
     use  SerializesModels;
 
@@ -37,11 +37,11 @@ class InviteCreated extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address(env('MAIL_FROM_ADDRESS'), 'First Church'),
+            from: new Address(env('MAIL_FROM_ADDRESS'), env('APP_NAME')),
             replyTo: [
-                new Address('tech@theflowchurch.online', 'J. Mills'),
+                new Address(env('MAIL_FROM_ADDRESS'), env('APP_NAME')),
             ],
-            subject: 'You\'re Invited to Join First Love Church',
+            subject: 'You\'re Invited to Join ' . env('APP_NAME'),
         );
     }
 
