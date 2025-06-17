@@ -97,27 +97,6 @@
           @enderror
         </div>
 
-        <!-- Country -->
-        <div>
-          <label for="country" class="block mb-2 text-sm font-medium text-gray-700">Country *</label>
-          <input type="text" id="country" name="country" value="{{ old('country', $denomination->country) }}" required
-                 class="w-full h-10 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-                 placeholder="e.g. Ghana">
-          @error('country')
-            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-          @enderror
-        </div>
-
-        <!-- City -->
-        <div>
-          <label for="city" class="block mb-2 text-sm font-medium text-gray-700">City *</label>
-          <input type="text" id="city" name="city" value="{{ old('city', $denomination->city) }}" required
-                 class="w-full h-10 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-                 placeholder="e.g. Accra">
-          @error('city')
-            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-          @enderror
-        </div>
 
         <!-- Zone -->
         <div>

@@ -55,9 +55,9 @@ class DenominationController extends Controller
             $validatedData = $request->validate([
                 'name' => 'required|string|max:255',
                 'slug' => 'required|string|max:255|unique:denominations',
-                'country' => 'required|string|max:255',
-                'city' => 'required|string|max:255',
-                'avg_attendance' => 'required|integer|min:0',
+                'country' => 'nullable|string|max:255',
+                'city' => 'nullable|string|max:255',
+                'avg_attendance' => 'nullable|integer|min:0',
                 'zone_id' => 'required|exists:zones,id',
                 'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048', // 2MB max
             ]);
@@ -114,9 +114,9 @@ class DenominationController extends Controller
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
                 'slug' => 'required|string|max:255|unique:denominations,slug,' . $denomination->id,
-                'avg_attendance' => 'required|integer|min:0',
-                'country' => 'required|string|max:255',
-                'city' => 'required|string|max:255',
+                'avg_attendance' => 'nullable|integer|min:0',
+                'country' => 'nullable|string|max:255',
+                'city' => 'nullable|string|max:255',
                 'zone_id' => 'required|exists:zones,id',
                 'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048', // 2MB max
             ]);
