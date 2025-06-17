@@ -1,21 +1,18 @@
 <?php
 
-use App\Http\Controllers\AdminClicksController;
-use App\Http\Controllers\AdminLinkController;
-use App\Http\Controllers\AnalyticsController;
-use App\Http\Controllers\DenominationController;
-use App\Http\Controllers\InviteController;
-use App\Http\Controllers\LinkController;
+use App\Http\Controllers\Admin\AnalyticsController;
+use App\Http\Controllers\Admin\ClicksController;
+use App\Http\Controllers\Admin\DenominationController;
+use App\Http\Controllers\Admin\InviteController;
+use App\Http\Controllers\Admin\LinkController;
+use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\UserManagementController;
+use App\Http\Controllers\Admin\ZoneController;
 use App\Http\Controllers\LinkTypeController;
 use App\Http\Controllers\UrlRedirectController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserDenominationController;
+use App\Http\Controllers\User\UserDenominationController;
 use App\Http\Controllers\UserLinkController;
-use App\Http\Controllers\ZoneController;
-use App\Http\Controllers\AdminSettingsController;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Arr;
 
 
 Route::get('/', function () {
@@ -37,11 +34,11 @@ Route::view('profile', 'user.profile')
     ->middleware(['auth'])
     ->name('profile');
 
-Route::get('admin/settings', [AdminSettingsController::class, 'index'])
+Route::get('admin/settings', [SettingsController::class, 'index'])
     ->middleware(['auth', 'role:admin', 'verified'])
     ->name('admin.settings');
 
-Route::post('admin/settings', [AdminSettingsController::class, 'store'])
+Route::post('admin/settings', [SettingsController::class, 'store'])
     ->middleware(['auth', 'role:admin', 'verified'])
     ->name('admin.settings.store');
 
@@ -65,7 +62,7 @@ Route::resource(
     ]
 )->middleware(['auth', 'verified', 'role:user']);
 
-Route::get('/denominations', [UserDenominationController::class, 'index'])
+Route::get('/denominations', [DenominationController::class, 'index'])
     ->middleware(['auth', 'verified', 'role:user'])
     ->name('denominations.index');
 
@@ -126,7 +123,7 @@ Route::resource(
 
 Route::resource(
     '/admin/links',
-    AdminLinkController::class,
+    LinkController::class,
     [
         'names' => [
             'index' => 'admin.links',
@@ -144,7 +141,7 @@ Route::resource(
 
 Route::resource(
     '/admin/clicks',
-    AdminClicksController::class,
+    ClicksController::class,
     [
         'names' => [
             'index' => 'admin.clicks',
@@ -162,7 +159,7 @@ Route::resource(
 
 Route::resource(
     '/admin/users',
-    UserController::class,
+    UserManagementController::class,
     [
         'names' => [
             'index' => 'admin.users',
@@ -200,7 +197,7 @@ Route::prefix('click')->group(function () {
     // Route with denomination (original functionality)
     Route::get('/{short_url}/{denomination}', [UrlRedirectController::class, 'index'])
         ->name('links.analytics.with_denomination');
-    
+
     // Route without denomination (new functionality)
     Route::get('/{short_url}', [UrlRedirectController::class, 'index'])
         ->name('links.analytics');

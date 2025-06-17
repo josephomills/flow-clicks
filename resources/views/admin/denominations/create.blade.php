@@ -62,10 +62,10 @@
 
       {{-- Slug field --}}
       <div>
-      <label for="population" class="block mb-2 text-sm font-medium">
-        Population *
+      <label for="avg_attendance" class="block mb-2 text-sm font-medium">
+        avg_attendance *
       </label>
-      <input type="number" id="population" name="population"
+      <input type="number" id="avg_attendance" name="avg_attendance"
         class="w-full h-10 rounded-md border border-input bg-background px-3 py-2 font-mono text-sm" required
         placeholder="e.g. 50,000" />
       <p class="mt-1 text-xs text-muted-foreground">
