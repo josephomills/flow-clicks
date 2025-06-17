@@ -1,21 +1,18 @@
 <?php
 
+use App\Http\Controllers\Admin\LinkController;
 use App\Http\Controllers\Admin\ClicksController;
-use App\Http\Controllers\AdminLinkController;
+use App\Http\Controllers\AdminSettingsController;
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\DenominationController;
 use App\Http\Controllers\InviteController;
-use App\Http\Controllers\LinkController;
 use App\Http\Controllers\LinkTypeController;
 use App\Http\Controllers\UrlRedirectController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserDenominationController;
 use App\Http\Controllers\UserLinkController;
 use App\Http\Controllers\ZoneController;
-use App\Http\Controllers\AdminSettingsController;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Arr;
 
 
 Route::get('/', function () {
@@ -126,7 +123,7 @@ Route::resource(
 
 Route::resource(
     '/admin/links',
-    AdminLinkController::class,
+    LinkController::class,
     [
         'names' => [
             'index' => 'admin.links',
