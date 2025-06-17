@@ -7,6 +7,9 @@
 !/public/images
 /public/build
 /public/hot
+/public/vendor/*
+/public/vendor/livewire/
+
 /public/storage
 /storage/*.key
 /storage/pail
