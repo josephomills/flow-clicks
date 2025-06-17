@@ -7,11 +7,11 @@ use App\Http\Controllers\Admin\InviteController;
 use App\Http\Controllers\Admin\LinkController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\UserManagementController;
+use App\Http\Controllers\Admin\ZoneController;
 use App\Http\Controllers\LinkTypeController;
 use App\Http\Controllers\UrlRedirectController;
-use App\Http\Controllers\UserDenominationController;
+use App\Http\Controllers\User\UserDenominationController;
 use App\Http\Controllers\UserLinkController;
-use App\Http\Controllers\ZoneController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -62,7 +62,7 @@ Route::resource(
     ]
 )->middleware(['auth', 'verified', 'role:user']);
 
-Route::get('/denominations', [UserDenominationController::class, 'index'])
+Route::get('/denominations', [DenominationController::class, 'index'])
     ->middleware(['auth', 'verified', 'role:user'])
     ->name('denominations.index');
 

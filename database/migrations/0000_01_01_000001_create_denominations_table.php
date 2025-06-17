@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('zone_id')->constrained()->cascadeOnDelete();
             $table->string('name');
-            $table->integer('population')->nullable();
+            $table->integer('avg_attendance')->nullable();
             $table->string('slug')->unique();
-            $table->string('city');
-            $table->string('country');
+            $table->string('city')->nullable();
+            $table->string('country')->nullable();
             $table->timestamps();
         });
     }
