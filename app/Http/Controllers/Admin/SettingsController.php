@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Denomination;
 use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
 
-class AdminSettingsController extends Controller
+class SettingsController extends Controller
 {
     public function index(){
         $current_user = Auth::user();
@@ -26,7 +27,7 @@ class AdminSettingsController extends Controller
             'name' => 'nullable',
             'denomination' => 'nullable',
             'userID' => 'required'
-           
+
         ]);
 
         // Create the new department
@@ -34,7 +35,7 @@ class AdminSettingsController extends Controller
             'name'=> $validatedData['name'],
             'denomination_id'=> $validatedData['denomination'],
         ]);
-        
+
 
         // Redirect back with a success message
         return redirect()->route('admin.denominations')->with('success', 'Denomination created successfully!');

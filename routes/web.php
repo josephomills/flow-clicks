@@ -1,14 +1,14 @@
 <?php
 
-use App\Http\Controllers\Admin\LinkController;
+use App\Http\Controllers\Admin\AnalyticsController;
 use App\Http\Controllers\Admin\ClicksController;
-use App\Http\Controllers\AdminSettingsController;
-use App\Http\Controllers\AnalyticsController;
-use App\Http\Controllers\DenominationController;
-use App\Http\Controllers\InviteController;
+use App\Http\Controllers\Admin\DenominationController;
+use App\Http\Controllers\Admin\InviteController;
+use App\Http\Controllers\Admin\LinkController;
+use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\LinkTypeController;
 use App\Http\Controllers\UrlRedirectController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserDenominationController;
 use App\Http\Controllers\UserLinkController;
 use App\Http\Controllers\ZoneController;
@@ -34,11 +34,11 @@ Route::view('profile', 'user.profile')
     ->middleware(['auth'])
     ->name('profile');
 
-Route::get('admin/settings', [AdminSettingsController::class, 'index'])
+Route::get('admin/settings', [SettingsController::class, 'index'])
     ->middleware(['auth', 'role:admin', 'verified'])
     ->name('admin.settings');
 
-Route::post('admin/settings', [AdminSettingsController::class, 'store'])
+Route::post('admin/settings', [SettingsController::class, 'store'])
     ->middleware(['auth', 'role:admin', 'verified'])
     ->name('admin.settings.store');
 
@@ -159,7 +159,7 @@ Route::resource(
 
 Route::resource(
     '/admin/users',
-    UserController::class,
+    UserManagementController::class,
     [
         'names' => [
             'index' => 'admin.users',

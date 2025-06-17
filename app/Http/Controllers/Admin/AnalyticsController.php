@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Link;
+use App\Http\Controllers\Controller;
 use App\Models\LinkClick;
 use App\Models\LinkGroup;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class AnalyticsController extends Controller
 {
