@@ -3,31 +3,31 @@
         <h1 class="text-xl font-semibold mb-6">Create New Short Link</h1>
 
         @if (session()->has('success'))
-        <div class="mb-6 p-4 bg-green-100 text-green-700 rounded-md text-sm">
+        <div class="mb-6 p-4 bg-green-500/10 text-green-500 rounded-md text-sm">
             {{ session('success') }}
         </div>
         @endif
 
         @if (session()->has('warning'))
-        <div class="mb-6 p-4 bg-yellow-100 text-yellow-700 rounded-md text-sm">
+        <div class="mb-6 p-4 bg-yellow-500/10 text-yellow-500 rounded-md text-sm">
             {{ session('warning') }}
         </div>
         @endif
 
         @if (session()->has('error'))
-        <div class="mb-6 p-4 bg-red-100 text-red-700 rounded-md text-sm">
+        <div class="mb-6 p-4 bg-red-500/10 text-red-500 rounded-md text-sm">
             {{ session('error') }}
         </div>
         @endif
 
         @if (session()->has('copied'))
-        <div class="mb-6 p-4 bg-blue-100 text-blue-700 rounded-md text-sm">
+        <div class="mb-6 p-4 bg-blue-500/10 text-blue-500 rounded-md text-sm">
             {{ session('copied') }}
         </div>
         @endif
 
         @if ($errors->any())
-        <div class="mb-6 p-4 bg-red-100 text-red-700 rounded-md text-sm">
+        <div class="mb-6 p-4 bg-red-500/10 text-red-500 rounded-md text-sm">
             <ul class="space-y-1">
                 @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
@@ -53,11 +53,7 @@
 
             <!-- URL Field -->
             <div class="flex flex-col md:flex-row gap-4">
-
-
-
             </div>
-
 
             <!-- Denomination Selection -->
             <div class="space-y-2">
@@ -93,7 +89,7 @@
                         class="absolute z-10 mt-1 w-full rounded-md border border-input bg-background shadow-lg max-h-60 overflow-auto">
                         <div class="space-y-1 p-1">
                             @foreach ($availableDenominations as $denomination)
-                            <label class="flex items-center px-3 py-2 rounded hover:bg-muted cursor-pointer">
+                            <label class="flex items-center px-3 py-2 rounded hover:bg-accent hover:text-accent-foreground cursor-pointer">
                                 <input type="checkbox" wire:model="denominations" value="{{ $denomination->id }}"
                                     class="h-4 w-4 rounded border-input text-primary focus:ring-primary">
                                 <span class="ml-2 text-sm">{{ $denomination->name }}</span>
@@ -124,7 +120,7 @@
             <div class="flex justify-end flex-row">
                 <div class="w-full md:w-auto">
                     <button type="submit" wire:loading.attr="disabled"
-                        class="flex items-center justify-center text-sm text-white bg-primary rounded-md hover:bg-primary/90 px-4 py-2 h-10 w-full md:w-32 disabled:opacity-50">
+                        class="flex items-center justify-center text-sm text-primary-foreground bg-primary rounded-md hover:bg-primary/90 px-4 py-2 h-10 w-full md:w-32 disabled:opacity-50">
                         <span wire:loading.remove>Shorten</span>
                         <span wire:loading>Processing...</span>
                         <x-heroicon-o-arrow-right class="h-4 w-4 ml-2" wire:loading.remove />
@@ -167,12 +163,12 @@
                         </div>
                         <div class="flex items-center gap-2">
                             <button wire:click="copyToClipboard('{{ $linkData['full_url'] }}')"
-                                class="p-1 rounded-md hover:bg-muted text-muted-foreground" title="Copy to clipboard">
+                                class="p-1 rounded-md hover:bg-accent hover:text-accent-foreground text-muted-foreground" title="Copy to clipboard">
                                 <x-heroicon-o-clipboard class="h-4 w-4" />
                             </button>
                             <button wire:click="deleteLink({{ $linkData['link']->id }})"
                                 wire:confirm="Are you sure you want to delete this link?"
-                                class="p-1 rounded-md hover:bg-red-100 text-red-600" title="Delete link">
+                                class="p-1 rounded-md hover:bg-destructive hover:text-destructive-foreground text-destructive" title="Delete link">
                                 <x-heroicon-o-trash class="h-4 w-4" />
                             </button>
                         </div>

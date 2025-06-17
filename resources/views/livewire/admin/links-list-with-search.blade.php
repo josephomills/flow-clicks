@@ -80,7 +80,7 @@
                     title="View Analytics">
                     <x-heroicon-o-chart-bar class="h-4 w-4" /> Analytics
                 </a>
-
+                
                 <button class="p-1 rounded-md hover:bg-muted text-muted-foreground" title="Edit Group">
                     <x-heroicon-o-pencil class="h-4 w-4" />
                 </button>

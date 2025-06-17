@@ -14,18 +14,28 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <script>
+        if (localStorage.getItem('dark-mode') === 'true' ||
+            (!('dark-mode' in localStorage) &&
+                window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+    </script>
 </head>
 
-<body class="font-sans text-gray-900 antialiased">
-    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
+<body class="font-sans text-foreground antialiased">
+    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-background">
         <div>
             <a href="/" wire:navigate>
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                <x-application-logo class="w-40 fill-current text-muted-foreground" />
             </a>
         </div>
 
         <div
-            class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
+            class="w-full sm:max-w-md mt-6 px-6 py-4 bg-card text-card-foreground shadow-md overflow-hidden sm:rounded-lg">
             {{ $slot }}
         </div>
     </div>
