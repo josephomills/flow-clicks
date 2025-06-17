@@ -149,7 +149,7 @@
                                 <a href="{{ $linkData['full_url'] }}" target="_blank"
                                     class="text-sm text-primary hover:underline">
                                     {{ $linkData['full_url'] }}
-                                    a>
+                                </a>
                             </div>
                             @if ($linkData['link']->description)
                             <p class="text-xs text-muted-foreground ml-6">{{ $linkData['link']->description }}</p>
