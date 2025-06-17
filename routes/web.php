@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\AdminClicksController;
+use App\Http\Controllers\Admin\ClicksController;
 use App\Http\Controllers\AdminLinkController;
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\DenominationController;
@@ -144,7 +144,7 @@ Route::resource(
 
 Route::resource(
     '/admin/clicks',
-    AdminClicksController::class,
+    ClicksController::class,
     [
         'names' => [
             'index' => 'admin.clicks',
@@ -200,7 +200,7 @@ Route::prefix('click')->group(function () {
     // Route with denomination (original functionality)
     Route::get('/{short_url}/{denomination}', [UrlRedirectController::class, 'index'])
         ->name('links.analytics.with_denomination');
-    
+
     // Route without denomination (new functionality)
     Route::get('/{short_url}', [UrlRedirectController::class, 'index'])
         ->name('links.analytics');
