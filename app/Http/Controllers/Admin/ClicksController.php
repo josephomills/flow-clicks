@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\LinkClick;
 use Illuminate\Http\Request;
 
-class AdminClicksController extends Controller
+class ClicksController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +20,7 @@ public function index(Request $request)
         ->distinct()
         ->orderBy('country_code')
         ->pluck('country_code');
-    
+
     $devices = LinkClick::whereNotNull('device_type')
         ->distinct()
         ->orderBy('device_type')

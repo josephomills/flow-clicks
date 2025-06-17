@@ -17,7 +17,7 @@ class DenominationSeeder extends Seeder
             [
                 'name' => 'First Love Church - Accra', 
                 'slug' => 'flc-accra', 
-                'population' => 30_000,
+                'avg_attendance' => 30_000,
                 'city' => 'Accra',
                 'country' => 'Ghana',
                 'zone_id' => 1
@@ -26,7 +26,7 @@ class DenominationSeeder extends Seeder
             [
                 'name' => 'First Love Church - London', 
                 'slug' => 'flc-london', 
-                'population' => 30_000,
+                'avg_attendance' => 30_000,
                 'city' => 'London',
                 'country' => 'United Kingdom',
                 'zone_id' => 1
@@ -35,7 +35,7 @@ class DenominationSeeder extends Seeder
             [
                 'name' => 'First Love Church - Paris', 
                 'slug' => 'flc-paris', 
-                'population' => 30_000,
+                'avg_attendance' => 30_000,
                 'city' => 'Paris',
                 'country' => 'France',
                 'zone_id' => 2
@@ -45,7 +45,7 @@ class DenominationSeeder extends Seeder
             [
                 'name' => 'Jesus is the Answer Church - Takoradi', 
                 'slug' => 'jita-takoradi', 
-                'population' => 30_000,
+                'avg_attendance' => 30_000,
                 'city' => 'Takoradi',
                 'country' => 'Ghana',
                 'zone_id' => 1
@@ -54,7 +54,7 @@ class DenominationSeeder extends Seeder
             [
                 'name' => 'Precious Soul Church', 
                 'slug' => 'psc', 
-                'population' => 30_000,
+                'avg_attendance' => 30_000,
                 'city' => 'Accra',
                 'country' => 'Ghana',
                 'zone_id' => 1

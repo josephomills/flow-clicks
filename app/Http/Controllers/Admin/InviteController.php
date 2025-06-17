@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Mail\InviteCreated;
 use App\Models\Invite;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
-use Illuminate\Support\Facades\Hash;
 
 class InviteController extends Controller
 {
@@ -25,7 +25,7 @@ class InviteController extends Controller
      *
      * @param Request $request The HTTP request containing form data
      * @return RedirectResponse
-     * 
+     *
      * @throws \Illuminate\Validation\ValidationException
      * @throws \Exception If invite cannot be created
      */

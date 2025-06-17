@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Denomination;
 use App\Models\Link;
 use App\Models\LinkType;
@@ -11,7 +12,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
-class AdminLinkController extends Controller
+class LinkController extends Controller
 {
     public function index()
     {

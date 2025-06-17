@@ -10,7 +10,7 @@ class Denomination extends Model
     /** @use HasFactory<\Database\Factories\DenominationFactory> */
     use HasFactory;
 
-    protected $fillable = ['name', 'slug', 'population','city', 'country', 'zone_id' ];
+    protected $fillable = ['name', 'slug', 'avg_attendance','city', 'country', 'zone_id' ];
     public function clicks()
     {
         return $this->hasMany(LinkClick::class);
