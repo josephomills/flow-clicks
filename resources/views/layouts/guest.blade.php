@@ -30,7 +30,7 @@
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-background">
         <div>
             <a href="/" wire:navigate>
-                <x-application-logo class="w-40 fill-current text-muted-foreground" />
+                <x-application-logo />
             </a>
         </div>
 

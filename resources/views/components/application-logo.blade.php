@@ -1,1 +1,1 @@
-<img src="{{ asset('images/flow-church-logo-white-transparent.webp') }}" alt="Logo" {{ $attributes }}>
+<img src="{{ asset('images/flow-church-logo-white-transparent.webp') }}" alt="Logo" {{ $attributes->merge(['style' => 'width: 160px; height: auto;']) }}>
