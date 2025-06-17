@@ -48,7 +48,7 @@
                             <th class="text-left px-4 py-3 text-sm font-medium">Slug</th>
                             <th class="text-left px-4 py-3 text-sm font-medium">Zone</th>
 
-                            <th class="text-left px-4 py-3 text-sm font-medium">Population</th>
+                            <th class="text-left px-4 py-3 text-sm font-medium">Average Attendance</th>
 
                             <th class="text-left px-4 py-3 text-sm font-medium">Actions</th>
                         </tr>
@@ -69,7 +69,7 @@
                                 <td class="px-4 py-4">
                                     <span
                                         class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-muted text-muted-foreground">
-                                        {{$denomination->population}}
+                                        {{ number_format($denomination->avg_attendance) }}
                                     </span>
                                 </td>
 

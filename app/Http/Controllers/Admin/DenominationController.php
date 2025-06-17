@@ -58,7 +58,7 @@ class DenominationController extends Controller
                 'slug' => 'required|unique:denominations',
                 'country' => 'nullable|string|max:255',
                 'city' => 'string',
-                'population' => 'required',
+                'avg_attendance' => 'required',
                 'zone_id' => 'exists:zones,id',
             ]);
 
@@ -106,7 +106,7 @@ class DenominationController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:denominations,slug,' . $denomination->id,
-            'population' => 'required|integer|min:0',
+            'avg_attendance' => 'required|integer|min:0',
             'country' => 'required|string|max:255',
             'city' => 'required|string|max:255',
             'zone_id' => 'required|exists:zones,id',
