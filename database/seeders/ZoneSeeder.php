@@ -24,7 +24,7 @@ class ZoneSeeder extends Seeder
             [
                 'name' => 'Languages',
                 'slug' => 'lang',
-                'country' => 'France,Germany',
+                'country' => 'France,Togo,Ivory Coast,Angola,Sao Tome,Spain,Brazil',
                 
                
             ],
@@ -32,6 +32,20 @@ class ZoneSeeder extends Seeder
                 'name' => 'Europe',
                 'slug' => 'eu',
                 'country' => 'Switzerland,Britain',
+                
+               
+            ],
+            [
+                'name' => 'Africa',
+                'slug' => 'africa',
+                'country' => 'Zambia,Kenya,South Africa,Zimbabwe',
+                
+               
+            ],
+            [
+                'name' => 'Non-GMT',
+                'slug' => 'non-gmt',
+                'country' => 'Guyana,USA,PNG,Fiji',
                 
                
             ],
