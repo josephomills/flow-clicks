@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->string('city')->nullable();
             $table->string('country')->nullable();
-            $table->string('logo')->nullable();
             $table->timestamps();
         });
     }
