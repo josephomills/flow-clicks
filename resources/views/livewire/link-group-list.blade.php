@@ -32,7 +32,7 @@
             </div>
         @else
             @foreach ($groupsWithLinks as $group)
-                <div class="mb-10">
+                <div class="mt-10">
                     {{-- Group Header --}}
                     <div class="flex items-center justify-between mb-3">
                         <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
@@ -42,16 +42,17 @@
                                     {{ $group->name }}
                                 </h3>
                             </div>
-                            <span class="text-sm text-muted-foreground">
+                            {{-- <span class="text-sm text-muted-foreground">
                                 Owner: {{ $group->user->name }} &middot; Role: {{ $group->user->role }}
-                            </span>
+                            </span> --}}
                         </div>
 
+           
                         <div class="flex items-center gap-2">
                             <a href="{{ route('link-group.show', ['linkGroup' => $group->id]) }}"
-                                class="flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-primary text-primary hover:bg-primary/10 text-sm"
+                               class="inline-flex items-center gap-1.5 rounded-full border border-muted bg-muted px-3 py-1.5 text-sm font-medium text-muted-foreground hover:bg-muted/80 transition-colors"
                                 title="View Analytics">
-                                <x-heroicon-o-chart-bar class="h-4 w-4" />
+                                <x-heroicon-o-chart-bar  class="w-4 h-4 mr-2 text-kanik-brown-500" />
                                 Analytics
                             </a>
 
