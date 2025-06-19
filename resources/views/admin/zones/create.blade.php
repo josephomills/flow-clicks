@@ -4,7 +4,7 @@
 
 @section('top-action')
 
-  <a href="{{ route('admin.zones') }}"
+  <a href="{{ route('admin.zones.index') }}"
     class="flex flex-row items-center text-sm bg-primary text-primary-foreground py-3 px-4 rounded-md text-center hover:bg-primary/90">
     <x-heroicon-s-arrow-left class="mr-1 h-5 w-5" />
     Go Back

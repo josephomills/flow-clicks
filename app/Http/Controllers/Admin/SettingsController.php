@@ -38,7 +38,7 @@ class SettingsController extends Controller
 
 
         // Redirect back with a success message
-        return redirect()->route('admin.denominations')->with('success', 'Denomination created successfully!');
+        return redirect()->route('admin.denominations.index')->with('success', 'Denomination created successfully!');
     } catch (\Exception $e) {
         // Log the error message (optional)
         \Log::error($e->getMessage());

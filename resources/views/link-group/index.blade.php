@@ -29,10 +29,11 @@ Create New
                 {{ session('error') }}
             </x-alert>
         @endif
-        {{-- @livewire('') --}}
+        
 
-            {{-- @livewire('admin.links-list-with-search') --}}
-            @livewire('link-group-list')
+        {{-- Create Link Gorup Form Livewire component goes here --}}
+
+
        
     </div>
 

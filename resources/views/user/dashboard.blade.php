@@ -28,7 +28,7 @@ Create New
         <h2 class="text-xl font-semibold mb-4">Quick Actions</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <a
-            href={{route('user.links')}}
+            href={{route('user.links.create')}}
                 class="bg-primary text-primary-foreground py-3 px-4 rounded-md text-center hover:bg-primary/90"
             >
                 Create New Link

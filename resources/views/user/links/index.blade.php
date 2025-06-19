@@ -30,7 +30,8 @@
     @endif
     {{-- @livewire('') --}}
 
-    @livewire('user.links-list-with-search')
+    {{-- @livewire('user.links-list-with-search') --}}
+    @livewire('link-group-list')
 
 </div>
 

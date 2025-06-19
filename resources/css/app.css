@@ -1,118 +1,117 @@
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap');
 
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
-  :root {
-    --background: 0 0% 99%;
-    --foreground: 20 10% 15%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 20 10% 15%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 20 10% 15%;
-
-    --primary: 20 10% 15%;
-    --primary-foreground: 0 0% 99%;
-
-    --secondary: 20 12% 95%;
-    --secondary-foreground: 20 10% 15%;
-
-    --muted: 20 12% 95%;
-    --muted-foreground: 20 10% 40%;
-
-    --accent: 20 30% 60%;
-    --accent-foreground: 0 0% 99%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 20 5% 90%;
-    --input: 20 5% 90%;
-    --ring: 20 30% 60%;
-
-    --radius: 0.5rem;
-  }
-
-  .dark {
-    --background: 20 10% 15%;
-    --foreground: 0 0% 99%;
-
-    --card: 20 10% 15%;
-    --card-foreground: 0 0% 99%;
-
-    --popover: 20 10% 15%;
-    --popover-foreground: 0 0% 99%;
-
-    --primary: 0 0% 99%;
-    --primary-foreground: 20 10% 15%;
-
-    --secondary: 20 8% 20%;
-    --secondary-foreground: 0 0% 99%;
-
-    --muted: 20 8% 20%;
-    --muted-foreground: 20 10% 70%;
-
-    --accent: 20 30% 45%;
-    --accent-foreground: 0 0% 99%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 99%;
-
-    --border: 20 8% 30%;
-    --input: 20 8% 30%;
-    --ring: 20 30% 45%;
-  }
+    :root {
+      --background: 0 0% 99%;
+      --foreground: 20 10% 15%;
+ 
+      --card: 0 0% 100%;
+      --card-foreground: 20 10% 15%;
+ 
+      --popover: 0 0% 100%;
+      --popover-foreground: 20 10% 15%;
+ 
+      --primary: 20 10% 15%;
+      --primary-foreground: 0 0% 99%;
+ 
+      --secondary: 20 12% 95%;
+      --secondary-foreground: 20 10% 15%;
+ 
+      --muted: 20 12% 95%;
+      --muted-foreground: 20 10% 40%;
+ 
+      --accent: 20 30% 60%;
+      --accent-foreground: 0 0% 99%;
+ 
+      --destructive: 0 84.2% 60.2%;
+      --destructive-foreground: 0 0% 98%;
+ 
+      --border: 20 5% 90%;
+      --input: 20 5% 90%;
+      --ring: 20 30% 60%;
+ 
+      --radius: 0.5rem;
+    }
+ 
+    .dark {
+      --background: 20 10% 15%;
+      --foreground: 0 0% 99%;
+ 
+      --card: 20 10% 15%;
+      --card-foreground: 0 0% 99%;
+ 
+      --popover: 20 10% 15%;
+      --popover-foreground: 0 0% 99%;
+ 
+      --primary: 0 0% 99%;
+      --primary-foreground: 20 10% 15%;
+ 
+      --secondary: 20 8% 20%;
+      --secondary-foreground: 0 0% 99%;
+ 
+      --muted: 20 8% 20%;
+      --muted-foreground: 20 10% 70%;
+ 
+      --accent: 20 30% 45%;
+      --accent-foreground: 0 0% 99%;
+ 
+      --destructive: 0 62.8% 30.6%;
+      --destructive-foreground: 0 0% 99%;
+ 
+      --border: 20 8% 30%;
+      --input: 20 8% 30%;
+      --ring: 20 30% 45%;
+    }
 }
 
 @layer base {
-  * {
-    border-color: hsl(var(--border));
-  }
-
-  body {
-    background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
-    @apply font-sans;
-  }
+    * {
+      @apply border-border;
+    }
+    body {
+      @apply bg-background text-foreground font-sans;
+    }
 }
 
 @layer components {
-  .container-kanik {
-    @apply w-full max-w-[1400px] mx-auto px-5 md:px-8;
-  }
-
-  .heading-xl {
-    @apply text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-medium leading-tight tracking-tight;
-  }
-
-  .heading-lg {
-    @apply text-4xl sm:text-5xl lg:text-6xl font-medium leading-tight tracking-tight;
-  }
-
-  .heading-md {
-    @apply text-3xl sm:text-4xl font-medium leading-tight tracking-tight;
-  }
-
-  .heading-sm {
-    @apply text-2xl sm:text-3xl font-medium leading-tight tracking-tight;
-  }
-
-  .body-lg {
-    @apply text-xl font-normal leading-relaxed;
-  }
-
-  .body-md {
-    @apply text-base font-normal leading-relaxed;
-  }
-
-  .body-sm {
-    @apply text-sm font-normal leading-relaxed;
-  }
-
-  .mono {
-    @apply font-mono uppercase tracking-wider text-xs;
-  }
+    .container-kanik {
+      @apply w-full max-w-[1400px] mx-auto px-5 md:px-8;
+    }
+ 
+    .heading-xl {
+      @apply text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-medium leading-tight tracking-tight;
+    }
+ 
+    .heading-lg {
+      @apply text-4xl sm:text-5xl lg:text-6xl font-medium leading-tight tracking-tight;
+    }
+ 
+    .heading-md {
+      @apply text-3xl sm:text-4xl font-medium leading-tight tracking-tight;
+    }
+ 
+    .heading-sm {
+      @apply text-2xl sm:text-3xl font-medium leading-tight tracking-tight;
+    }
+ 
+    .body-lg {
+      @apply text-xl font-normal leading-relaxed;
+    }
+ 
+    .body-md {
+      @apply text-base font-normal leading-relaxed;
+    }
+ 
+    .body-sm {
+      @apply text-sm font-normal leading-relaxed;
+    }
+ 
+    .mono {
+      @apply font-mono uppercase tracking-wider text-xs;
+    }
 }

@@ -53,7 +53,7 @@ class UserManagementController extends Controller
                 'denomination_id' => $validated['denomination']
             ]);
 
-            return redirect()->route('admin.users')->with('success', 'User created successfully.');
+            return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
 
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to create user. Please try again.')
@@ -156,7 +156,7 @@ class UserManagementController extends Controller
             // Delete the user
             $user->delete();
 
-            return redirect()->route('admin.users')->with('success', 'User deleted successfully.');
+            return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
 
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());

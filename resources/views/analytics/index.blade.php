@@ -113,7 +113,7 @@
     <script>
         document.getElementById('timePeriod').addEventListener('change', function() {
             const period = this.value;
-            window.location.href = "{{ route('admin.analytics.index') }}?period=" + period;
+            window.location.href = "{{ route('admin.analytics') }}?period=" + period;
         });
     </script>
     @endpush
