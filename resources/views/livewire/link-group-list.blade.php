@@ -91,7 +91,8 @@
 
                                                         <button
                                                             @click="
-                                            navigator.clipboard.writeText('{{ env('APP_URL') }}/click/{{ $link->short_url }}/{{ $link->denomination->slug }}');
+                                            navigator.clipboard.writeText('{{ env('APP_URL') }}/click/{{ $link->short_url }}{{ $link->denomination ? '/' . $link->denomination->slug : '' }}
+');
                                             copied = true;
                                             setTimeout(() => copied = false, 1500);
                                         "
