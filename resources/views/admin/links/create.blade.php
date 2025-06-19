@@ -3,7 +3,7 @@
 @section('title', 'Create New Link')
 
 @section('top-action')
-    <a href="{{ route('admin.links') }}"
+    <a href="{{ route('admin.links.index') }}"
         class="flex items-center bg-primary text-primary-foreground py-2 px-4 rounded-md hover:bg-primary/90 text-sm">
         <x-heroicon-s-arrow-left class="h-4 w-4 mr-1" />
         Back to Links

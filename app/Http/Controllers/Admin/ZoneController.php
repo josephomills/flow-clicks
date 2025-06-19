@@ -46,7 +46,7 @@ class ZoneController extends Controller
 
 
             // Redirect back with a success message
-            return redirect()->route('admin.zones')->with('success', 'zone created successfully!');
+            return redirect()->route('admin.zones.index')->with('success', 'zone created successfully!');
         } catch (\Exception $e) {
             // Log the error message (optional)
             \Log::error($e->getMessage());
@@ -99,7 +99,7 @@ class ZoneController extends Controller
         $zone->delete();
 
         return redirect()
-            ->route('admin.zones')
+            ->route('admin.zones.index')
             ->with('success', 'zone deleted successfully.');
     }
 }

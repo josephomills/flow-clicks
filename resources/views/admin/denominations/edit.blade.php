@@ -3,11 +3,14 @@
 @section('title', 'Edit Denomination')
 
 @section('top-action')
-<a class="flex flex-row items-center text-sm bg-primary text-primary-foreground py-3 px-4 rounded-md text-center hover:bg-primary/90" href="{{ route('admin.denominations') }}">
+<a 
+ href="{{ route('admin.denominations.index') }}"
+ class="flex flex-row items-center text-sm bg-primary text-primary-foreground py-3 px-4 rounded-md text-center hover:bg-primary/90">
   <x-heroicon-s-arrow-left class="mr-1 h-5 w-5" />
   Go Back
-</a>
+</a> 
 @endsection
+
 
 @section('content')
 <div class="bg-background rounded-md border p-6">
@@ -63,9 +66,9 @@
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
               @enderror
             </div>
-            <div class="mt-[28px]">
+            <div class="">
               <div id="logoPreviewContainer" class="{{ $denomination->logo ? '' : 'hidden' }}">
-                <img id="logoPreview" class="h-20 w-20 rounded-md border object-contain" 
+                <img id="logoPreview" class="h-20 w-20 rounded-md border object-contain text-sm text-center text-muted" 
                      src="{{ $denomination->logo ? asset('storage/' . $denomination->logo) : '#' }}" 
                      alt="Current logo">
               </div>
@@ -117,7 +120,7 @@
 
     <!-- Form Actions -->
     <div class="flex justify-end gap-4 pt-6 border-t border-gray-200">
-      <a href="{{ route('admin.denominations') }}" class="flex items-center px-4 py-2 rounded-md border border-gray-300 text-sm font-medium hover:bg-gray-50">
+      <a href="{{ route('admin.denominations.index') }}" class="flex items-center px-4 py-2 rounded-md border border-gray-300 text-sm font-medium hover:bg-gray-50">
         Cancel
       </a>
       <button type="submit" class="flex items-center bg-primary text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/90">

@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class DenominationController extends Controller
+class DenominationMgntController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -72,7 +72,7 @@ class DenominationController extends Controller
             Denomination::create($validatedData);
 
             // Redirect back with a success message
-            return redirect()->route('admin.denominations')->with('success', 'Denomination created successfully!');
+            return redirect()->route('admin.denominations.index')->with('success', 'Denomination created successfully!');
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Handle validation errors
             return redirect()->back()->withErrors($e->errors())->withInput();
@@ -169,14 +169,14 @@ class DenominationController extends Controller
             $denomination->delete();
 
             return redirect()
-                ->route('admin.denominations')
+                ->route('admin.denominations.index')
                 ->with('success', 'Denomination deleted successfully.');
         } catch (\Exception $e) {
             // Log the error message
             \Log::error('Denomination deletion failed: ' . $e->getMessage());
 
             return redirect()
-                ->route('admin.denominations')
+                ->route('admin.denominations.index')
                 ->with('error', 'Something went wrong while deleting the denomination. Please try again.');
         }
     }
@@ -188,10 +188,10 @@ class DenominationController extends Controller
     {
         // Generate a unique filename
         $filename = $slug . '-' . time() . '.' . $file->getClientOriginalExtension();
-        
+
         // Store the file in the public disk under denominations folder
         $path = $file->storeAs('denominations/logos', $filename, 'public');
-        
+
         return $path;
     }
 
@@ -206,7 +206,7 @@ class DenominationController extends Controller
             ]);
 
             $status = $denomination->is_active ? 'activated' : 'deactivated';
-            
+
             return redirect()
                 ->back()
                 ->with('success', "Denomination {$status} successfully.");

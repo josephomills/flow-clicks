@@ -3,7 +3,7 @@
 @section('title', 'Edit Zone')
 
 @section('top-action')
-    <a href="{{ route('admin.zones') }}"
+    <a href="{{ route('admin.zones.index') }}"
         class="flex flex-row items-center text-sm bg-primary text-primary-foreground py-3 px-4 rounded-md text-center hover:bg-primary/90">
         <x-heroicon-s-arrow-left class="mr-1 h-5 w-5" />
         Go Back
@@ -52,7 +52,7 @@
 
                 {{-- Form actions --}}
                 <div class="flex justify-end gap-4">
-                    <a href="{{ route('admin.zones') }}"
+                    <a href="{{ route('admin.zones.index') }}"
                         class="flex items-center px-4 py-2 rounded-md border hover:bg-muted">
                         Cancel
                     </a>

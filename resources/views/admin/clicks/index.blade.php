@@ -21,7 +21,7 @@
         <div class="m-0">
             <!-- Search and filters -->
             <div class="bg-background p-4 rounded-md border mb-6">
-                <form method="GET" action="{{ route('admin.clicks') }}" id="searchForm">
+                <form method="GET" action="{{ route('admin.clicks.index') }}" id="searchForm">
                     <div class="flex flex-col gap-4">
                         <!-- Criteria Selection -->
                         <div class="flex flex-col md:flex-row gap-4">
@@ -100,7 +100,7 @@
                                     Search
                                 </button>
                                 @if(request()->hasAny(['search', 'criteria', 'country_filter', 'device_filter', 'denomination_filter']))
-                                    <a href="{{ route('admin.clicks') }}" class="px-4 py-2 bg-muted text-muted-foreground rounded-md hover:bg-muted/80">
+                                    <a href="{{ route('admin.clicks.index') }}" class="px-4 py-2 bg-muted text-muted-foreground rounded-md hover:bg-muted/80">
                                         Clear All
                                     </a>
                                 @endif
