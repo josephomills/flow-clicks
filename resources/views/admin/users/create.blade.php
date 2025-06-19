@@ -9,7 +9,7 @@
 
         <x-heroicon-s-arrow-left class="mr-1 h-5 w-5" />
         Go Back
-
+    </a>
 
 @endsection
 
