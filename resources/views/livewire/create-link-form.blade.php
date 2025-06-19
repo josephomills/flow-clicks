@@ -1,6 +1,6 @@
 <div class="m-0">
     <div class="bg-background p-6 rounded-md border mb-6">
-        <h1 class="text-xl font-semibold mb-6">Create New Short Link</h1>
+        {{-- <h1 class="text-xl font-semibold mb-6">Create New Short Link</h1> --}}
 
         @if (session()->has('success'))
         <div class="mb-6 p-4 bg-green-500/10 text-green-500 rounded-md text-sm">

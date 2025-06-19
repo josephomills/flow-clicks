@@ -4,7 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 
-class UserDenominationController extends Controller
+class DenominationController extends Controller
 {
     public function index()
     {

@@ -121,7 +121,7 @@ class CreateLinkForm extends Component
             session()->flash('success', 'Short links created successfully!');
 
             // Redirect to the analytics page of the created link group
-            return redirect()->route('admin.analytics.show', ['analytic' => $this->link_group->id]);
+            return redirect()->route('link-group.show', ['analytic' => $this->link_group->id]);
         } catch (\Exception $e) {
             DB::rollBack();
             dd($e);
@@ -208,7 +208,7 @@ class CreateLinkForm extends Component
     public function render()
     {
         return view('livewire.create-link-form', [
-            'availableDenominations' => Denomination::all(),
+            'availableDenominations' => Auth::user()->denominations,
             'linkTypes' => LinkType::all(),
         ]);
     }

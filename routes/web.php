@@ -1,243 +1,144 @@
 <?php
 
+// Admin Management controllers
 use App\Http\Controllers\Admin\AnalyticsController;
 use App\Http\Controllers\Admin\ClicksController;
-use App\Http\Controllers\Admin\DenominationController;
+use App\Http\Controllers\Admin\DenominationMgntController;
 use App\Http\Controllers\Admin\InviteController;
 use App\Http\Controllers\Admin\LinkController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Admin\ZoneController;
+
+// General Controllers
+use App\Http\Controllers\LinkGroupController;
 use App\Http\Controllers\LinkTypeController;
 use App\Http\Controllers\UrlRedirectController;
-use App\Http\Controllers\User\UserDenominationController;
+
+// Denomination User Specific Controllers
+use App\Http\Controllers\User\DenominationController;
 use App\Http\Controllers\UserLinkController;
+
 use Illuminate\Support\Facades\Route;
 
-
+// Public Routes
 Route::get('/', function () {
     return auth()->check()
         ? redirect()->route('dashboard')
         : redirect('login');
 });
 
-Route::get('dashboard', function () {
-    if (auth()->user()->role === 'admin') {
-        return view('admin.dashboard');
-    }
-    return view('user.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Authenticated Routes
+Route::middleware(['auth', 'verified'])->group(function () {
+
+    // Dashboard - Role-based redirection
+    Route::get('dashboard', function () {
+        if (auth()->user()->role === 'admin') {
+            return view('admin.dashboard');
+        }
+        return view('user.dashboard');
+    })->name('dashboard');
+
+    // Profile (accessible to all authenticated users)
+    Route::view('profile', 'user.profile')->name('profile');
+
+    // User Routes Group
+    Route::middleware(['role:user'])->group(function () {
+
+        // Link Management
+        Route::resource('links', UserLinkController::class)->names('user.links');
+
+        // Denominations
+        Route::get('denominations', [DenominationController::class, 'index'])
+            ->name('denominations.index');
+    });
+
+    Route::get('group/{linkGroup}', [LinkGroupController::class, 'show'])->name('link-group.show');
+    Route::get('group/{linkGroup}/edit', [LinkGroupController::class, 'edit'])->name('link-group.edit');
+    Route::put('group/{linkGroup}', [LinkGroupController::class, 'update'])->name('link-group.update');
 
 
 
-Route::view('profile', 'user.profile')
-    ->middleware(['auth'])
-    ->name('profile');
-
-Route::get('admin/settings', [SettingsController::class, 'index'])
-    ->middleware(['auth', 'role:admin', 'verified'])
-    ->name('admin.settings');
-
-Route::post('admin/settings', [SettingsController::class, 'store'])
-    ->middleware(['auth', 'role:admin', 'verified'])
-    ->name('admin.settings.store');
+    // ======================================================================================
 
 
+    // Admin Routes Group
+    Route::prefix('admin')->name('admin.')->middleware(['role:admin', 'auth'])->group(function () {
 
-Route::resource(
-    '/links',
-    UserLinkController::class,
-    [
-        'names' => [
-            'index' => 'user.links',
-            'create' => 'user.links.create',
-            'store' => 'user.links.store',
-            'show' => 'user.links.show',
-            'edit' => 'user.links.edit',
-            'update' => 'user.links.update',
-            'destroy' => 'user.links.destroy',
-        ],
+        // Settings
+        Route::get('settings', [SettingsController::class, 'index'])->name('settings');
+        Route::post('settings', [SettingsController::class, 'store'])->name('settings.store');
 
+        // Denominations Management
+        Route::resource('denominations', DenominationMgntController::class);
 
-    ]
-)->middleware(['auth', 'verified', 'role:user']);
+        // Zones Management
+        Route::resource('zones', ZoneController::class);
 
-Route::get('/denominations', [DenominationController::class, 'index'])
-    ->middleware(['auth', 'verified', 'role:user'])
-    ->name('denominations.index');
+        // Link Types Management
+        Route::resource('linktypes', LinkTypeController::class);
 
-// Route::get('/links/{link}/analytics', [LinkController::class, 'analytics'])->name('links.analytics');
+        // Links Management
+        Route::resource('links', LinkController::class);
 
+        // Clicks Management
+        Route::resource('clicks', ClicksController::class);
 
-Route::resource(
-    '/admin/denominations',
-    DenominationController::class,
-    [
-        'names' => [
-            'index' => 'admin.denominations',
-            'create' => 'admin.denominations.create',
-            'store' => 'admin.denominations.store',
-            'show' => 'admin.denominations.show',
-            'edit' => 'admin.denominations.edit',
-            'update' => 'admin.denominations.update',
-            'destroy' => 'admin.denominations.destroy',
-        ],
+        // User Management
+        Route::resource('users', UserManagementController::class);
+
+        // Analytics Management
+        Route::resource('analytics', AnalyticsController::class);
+    });
+});
+
+// ======================================================================================
 
 
-    ]
-)->middleware(['auth', 'verified', 'role:admin']);
-Route::resource(
-    '/admin/zones',
-    ZoneController::class,
-    [
-        'names' => [
-            'index' => 'admin.zones',
-            'create' => 'admin.zones.create',
-            'store' => 'admin.zones.store',
-            'show' => 'admin.zones.show',
-            'edit' => 'admin.zones.edit',
-            'update' => 'admin.zones.update',
-            'destroy' => 'admin.zones.destroy',
-        ],
+// Invitation Routes (Public/Semi-public)
+Route::group(['prefix' => 'invite'], function () {
+    Route::get('/', [InviteController::class, 'invite'])->name('invite');
+    Route::post('/', [InviteController::class, 'process'])->name('process');
+    Route::get('accept/{token}', [InviteController::class, 'accept'])->name('invite.accept');
+    Route::post('complete/{token}', [InviteController::class, 'completeRegistration'])->name('invite.complete');
+});
 
+// ======================================================================================
 
-    ]
-);
-Route::resource(
-    '/admin/linktypes',
-    LinkTypeController::class,
-    [
-        'names' => [
-            'index' => 'admin.linktypes',
-            'create' => 'admin.linktypes.create',
-            'store' => 'admin.linktypes.store',
-            'show' => 'admin.linktypes.show',
-            'edit' => 'admin.linktypes.edit',
-            'update' => 'admin.linktypes.update',
-            'destroy' => 'admin.linktypes.destroy',
-        ],
-
-
-    ]
-)->middleware(['auth', 'verified', 'role:admin']);
-
-Route::resource(
-    '/admin/links',
-    LinkController::class,
-    [
-        'names' => [
-            'index' => 'admin.links',
-            'create' => 'admin.links.create',
-            'store' => 'admin.links.store',
-            'show' => 'admin.links.show',
-            'edit' => 'admin.links.edit',
-            'update' => 'admin.links.update',
-            'destroy' => 'admin.links.destroy',
-        ],
-
-
-    ]
-)->middleware(['auth', 'verified', 'role:admin']);
-
-Route::resource(
-    '/admin/clicks',
-    ClicksController::class,
-    [
-        'names' => [
-            'index' => 'admin.clicks',
-            'create' => 'admin.clicks.create',
-            'store' => 'admin.clicks.store',
-            'show' => 'admin.clicks.show',
-            'edit' => 'admin.clicks.edit',
-            'update' => 'admin.clicks.update',
-            'destroy' => 'admin.clicks.destroy',
-        ],
-
-
-    ]
-)->middleware(['auth', 'verified', 'role:admin']);
-
-Route::resource(
-    '/admin/users',
-    UserManagementController::class,
-    [
-        'names' => [
-            'index' => 'admin.users',
-            'create' => 'admin.users.create',
-            'store' => 'admin.users.store',
-            'show' => 'admin.users.show',
-            'edit' => 'admin.users.edit',
-            'update' => 'admin.users.update',
-            'destroy' => 'admin.users.destroy',
-        ],
-
-
-    ]
-)->middleware(['auth', 'verified', 'role:admin']);
-
-Route::resource(
-    '/admin/analytics',
-    AnalyticsController::class,
-    [
-        'names' => [
-            'index' => 'admin.analytics',
-            'create' => 'admin.analytics.create',
-            'store' => 'admin.analytics.store',
-            'show' => 'admin.analytics.show',
-            'edit' => 'admin.analytics.edit',
-            'update' => 'admin.analytics.update',
-            'destroy' => 'admin.analytics.destroy',
-        ],
-
-
-    ]
-)->middleware(['auth', 'verified', 'role:admin']);
-
+// Click Tracking Routes (Public)
 Route::prefix('click')->group(function () {
-    // Route with denomination (original functionality)
+    // Route with denomination
     Route::get('/{short_url}/{denomination}', [UrlRedirectController::class, 'index'])
         ->name('links.analytics.with_denomination');
 
-    // Route without denomination (new functionality)
+    // Route without denomination
     Route::get('/{short_url}', [UrlRedirectController::class, 'index'])
         ->name('links.analytics');
 });
 
+// Subdomain Click Tracking
 Route::domain('click.localhost')->group(function () {
-    Route::get('/{short_url}/{denomination}', [UrlRedirectController::class, 'index'])->name('links.analytics');
-
+    Route::get('/{short_url}/{denomination}', [UrlRedirectController::class, 'index'])
+        ->name('links.analytics.subdomain');
 });
 
 
-// Route::view('/invite', 'admin.users.invite')->name('admin.invite');
+// ======================================================================================
+// Development/Testing Routes
+if (app()->environment(['local', 'testing'])) {
+    Route::get('/test-email', function () {
+        try {
+            Mail::raw('This is a plain test email from Laravel.', function ($message) {
+                $message->to('komla.wilson.the.ceo@gmail.com')
+                    ->subject('Laravel Test Email');
+            });
 
-// show the invite form
-Route::get('invite', [InviteController::class, 'invite'])->name('invite');
-
-// process the invite form submission
-Route::post('invite', [InviteController::class, 'process'])->name('process');
-
-// {token} is a required parameter that will be exposed to us in the controller method
-Route::get('accept/{token}', [InviteController::class, 'accept'])->name('invite.accept');
-Route::post('invite/complete/{token}', [InviteController::class, 'completeRegistration'])->name('invite.complete');
-
-
-
-
-
-
-Route::get('/test-email', function () {
-    try {
-        Mail::raw('This is a plain test email from Laravel.', function ($message) {
-            $message->to('komla.wilson.the.ceo@gmail.com') // Replace with your test email
-                ->subject('Laravel Test Email');
-        });
-
-        return 'Test email sent successfully.';
-    } catch (\Exception $e) {
-        \Log::error('Test email failed', ['error' => $e->getMessage()]);
-        return 'Failed to send test email: ' . $e->getMessage();
-    }
-});
+            return 'Test email sent successfully.';
+        } catch (\Exception $e) {
+            \Log::error('Test email failed', ['error' => $e->getMessage()]);
+            return 'Failed to send test email: ' . $e->getMessage();
+        }
+    });
+}
 
 require __DIR__ . '/auth.php';

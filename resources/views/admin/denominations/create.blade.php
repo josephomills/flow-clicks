@@ -3,10 +3,12 @@
 @section('title', 'Add Denomination')
 
 @section('top-action')
-<a class="flex flex-row items-center text-sm bg-primary text-primary-foreground py-3 px-4 rounded-md text-center hover:bg-primary/90" href="{{ route('admin.denominations') }}">
+<a href="{{ url()->previous() }}"
+   class="flex flex-row items-center text-sm bg-primary text-primary-foreground py-3 px-4 rounded-md text-center hover:bg-primary/90">
   <x-heroicon-s-arrow-left class="mr-1 h-5 w-5" />
   Go Back
 </a>
+
 @endsection
 
 @section('content')
@@ -111,7 +113,7 @@
 
     <!-- Form Actions -->
     <div class="flex justify-end gap-4 pt-6 border-t border-gray-200">
-      <a href="{{ route('admin.denominations') }}" class="flex items-center px-4 py-2 rounded-md border border-gray-300 text-sm font-medium hover:bg-gray-50">
+      <a href="{{ route('admin.denominations.index') }}" class="flex items-center px-4 py-2 rounded-md border border-gray-300 text-sm font-medium hover:bg-gray-50">
         Cancel
       </a>
       <button type="submit" class="flex items-center bg-primary text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/90">

@@ -80,6 +80,13 @@ class LinkController extends Controller
         }
     }
 
+    public function edit($id){
+        return view('admin.links.edit', [
+            'link' => Link::findOrFail($id),
+            'denominations' => Denomination::all(),
+            'link_types' => LinkType::all()
+        ]);
+    }
     /**
      * Delete a short link
      */
@@ -95,7 +102,7 @@ class LinkController extends Controller
 
             $link->delete();
 
-            return redirect()->route('admin.links')
+            return redirect()->route('admin.links.index')
                 ->with('delete-success', 'Link deleted successfully!');
 
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
@@ -104,7 +111,7 @@ class LinkController extends Controller
                 'user_id' => auth()->id()
             ]);
 
-            return redirect()->route('admin.links')
+            return redirect()->route('admin.links.index')
                 ->with('error', 'Link not found');
 
         } catch (\Exception $e) {

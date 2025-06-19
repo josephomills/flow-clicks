@@ -2,26 +2,26 @@
 
 namespace App\Policies;
 
-use App\Models\LinkType;
+use App\Models\LinkGroup;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class LinkTypePolicy
+class LinkGroupPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return false;
+         return $user->role === 'admin';
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, LinkType $linkType): bool
+    public function view(User $user, LinkGroup $linkGroup): bool
     {
-        return false;
+        return $user->role === 'admin' || $user->id === $linkGroup->user_id;
     }
 
     /**
@@ -35,7 +35,7 @@ class LinkTypePolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, LinkType $linkType): bool
+    public function update(User $user, LinkGroup $linkGroup): bool
     {
         return false;
     }
@@ -43,7 +43,7 @@ class LinkTypePolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, LinkType $linkType): bool
+    public function delete(User $user, LinkGroup $linkGroup): bool
     {
         return false;
     }
@@ -51,7 +51,7 @@ class LinkTypePolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, LinkType $linkType): bool
+    public function restore(User $user, LinkGroup $linkGroup): bool
     {
         return false;
     }
@@ -59,7 +59,7 @@ class LinkTypePolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, LinkType $linkType): bool
+    public function forceDelete(User $user, LinkGroup $linkGroup): bool
     {
         return false;
     }
