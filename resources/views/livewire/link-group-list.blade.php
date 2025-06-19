@@ -42,25 +42,31 @@
                                     {{ $group->name }}
                                 </h3>
                             </div>
-                            {{-- <span class="text-sm text-muted-foreground">
-                                Owner: {{ $group->user->name }} &middot; Role: {{ $group->user->role }}
-                            </span> --}}
                         </div>
 
-           
                         <div class="flex items-center gap-2">
+                            {{-- Analytics Button --}}
                             <a href="{{ route('link-group.show', ['linkGroup' => $group->id]) }}"
-                               class="inline-flex items-center gap-1.5 rounded-full border border-muted bg-muted px-3 py-1.5 text-sm font-medium text-muted-foreground hover:bg-muted/80 transition-colors"
-                                title="View Analytics">
-                                <x-heroicon-o-chart-bar  class="w-4 h-4 mr-2 text-kanik-brown-500" />
-                                Analytics
+                               class="inline-flex items-center gap-2 rounded-full border border-muted bg-muted px-3 py-1.5 text-sm font-medium text-muted-foreground hover:bg-muted/80 transition-colors"
+                               title="View Analytics">
+                                <x-heroicon-o-chart-bar class="w-4 h-4 text-kanik-brown-500" />
+                                <span>Analytics</span>
                             </a>
 
+                            {{-- Edit Button --}}
                             <a href="{{ route('link-group.edit', ['linkGroup' => $group->id]) }}"
-                            class="p-1.5 rounded-md hover:bg-muted text-muted-foreground"
-                                title="Edit Group">
+                               class="inline-flex items-center justify-center rounded-full bg-muted px-2.5 py-2 text-muted-foreground hover:bg-muted/80 transition"
+                               title="Edit Group">
                                 <x-heroicon-o-pencil class="h-4 w-4" />
                             </a>
+
+                            {{-- Delete Button --}}
+                            <button wire:click="confirmDeleteGroup({{ $group->id }})"
+                                    onclick="confirm('Are you sure you want to delete this group?') || event.stopImmediatePropagation()"
+                                    class="inline-flex items-center justify-center rounded-full bg-muted px-2.5 py-2 text-red-500 hover:bg-muted/80 transition"
+                                    title="Delete Group">
+                                <x-heroicon-o-trash class="h-4 w-4" />
+                            </button>
                         </div>
                     </div>
 
@@ -91,8 +97,7 @@
 
                                                         <button
                                                             @click="
-                                            navigator.clipboard.writeText('{{ env('APP_URL') }}/click/{{ $link->short_url }}{{ $link->denomination ? '/' . $link->denomination->slug : '' }}
-');
+                                            navigator.clipboard.writeText('{{ env('APP_URL') }}/click/{{ $link->short_url }}{{ $link->denomination ? '/' . $link->denomination->slug : '' }}');
                                             copied = true;
                                             setTimeout(() => copied = false, 1500);
                                         "
@@ -106,7 +111,6 @@
                                                             Copied!
                                                         </span>
                                                     </span>
-
                                                 </div>
                                             </td>
                                             <td class="px-4 py-3">
@@ -120,18 +124,58 @@
                                             </td>
                                             <td class="px-4 py-3">
                                                 <div class="flex items-center gap-2">
-
-                                                    <button class="p-1.5 rounded-md hover:bg-muted text-blue-500"
-                                                        title="Share">
+                                                    <button 
+                                                        x-data="{ sharing: false }"
+                                                        @click="
+                                                            sharing = true;
+                                                            const shareData = {
+                                                                title: '{{ $link->title ?? 'Shared Link' }}',
+                                                                text: 'Check out this link: {{ $link->title ?? 'Shared Link' }}',
+                                                                url: '{{ env('APP_URL') }}/click/{{ $link->short_url }}{{ $link->denomination ? '/' . $link->denomination->slug : '' }}'
+                                                            };
+                                                            
+                                                            if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+                                                                navigator.share(shareData)
+                                                                    .then(() => console.log('Shared successfully'))
+                                                                    .catch((error) => {
+                                                                        console.error('Error sharing:', error);
+                                                                        // Fallback to copying to clipboard
+                                                                        navigator.clipboard.writeText(shareData.url);
+                                                                        alert('Link copied to clipboard!');
+                                                                    })
+                                                                    .finally(() => sharing = false);
+                                                            } else {
+                                                                // Fallback for browsers that don't support Web Share API
+                                                                navigator.clipboard.writeText(shareData.url)
+                                                                    .then(() => {
+                                                                        alert('Link copied to clipboard!');
+                                                                    })
+                                                                    .catch(() => {
+                                                                        // Final fallback
+                                                                        const textArea = document.createElement('textarea');
+                                                                        textArea.value = shareData.url;
+                                                                        document.body.appendChild(textArea);
+                                                                        textArea.select();
+                                                                        document.execCommand('copy');
+                                                                        document.body.removeChild(textArea);
+                                                                        alert('Link copied to clipboard!');
+                                                                    })
+                                                                    .finally(() => sharing = false);
+                                                            }
+                                                        "
+                                                        :class="sharing ? 'opacity-50 cursor-not-allowed' : ''"
+                                                        :disabled="sharing"
+                                                        class="p-1.5 rounded-md hover:bg-muted text-blue-500 transition-all duration-200"
+                                                        title="Share link">
                                                         <x-heroicon-o-share class="h-4 w-4" />
                                                     </button>
+                                                    
                                                     <button wire:click="confirmDelete({{ $link->id }})"
                                                         onclick="confirm('Are you sure?') || event.stopImmediatePropagation()"
                                                         class="p-1.5 rounded-md hover:bg-muted text-red-500"
                                                         title="Delete">
                                                         <x-heroicon-o-trash class="h-4 w-4" />
                                                     </button>
-
                                                 </div>
                                             </td>
                                         </tr>
