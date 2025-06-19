@@ -42,15 +42,19 @@
                                     {{ $group->name }}
                                 </h3>
                             </div>
+                            {{-- <span class="text-sm text-muted-foreground">
+                                Owner: {{ $group->user->name }} &middot; Role: {{ $group->user->role }}
+                            </span> --}}
                         </div>
 
+           
                         <div class="flex items-center gap-2">
                             {{-- Analytics Button --}}
                             <a href="{{ route('link-group.show', ['linkGroup' => $group->id]) }}"
-                               class="inline-flex items-center gap-2 rounded-full border border-muted bg-muted px-3 py-1.5 text-sm font-medium text-muted-foreground hover:bg-muted/80 transition-colors"
-                               title="View Analytics">
-                                <x-heroicon-o-chart-bar class="w-4 h-4 text-kanik-brown-500" />
-                                <span>Analytics</span>
+                               class="inline-flex items-center gap-1.5 rounded-full border border-muted bg-muted px-3 py-1.5 text-sm font-medium text-muted-foreground hover:bg-muted/80 transition-colors"
+                                title="View Analytics">
+                                <x-heroicon-o-chart-bar  class="w-4 h-4 mr-2 text-kanik-brown-500" />
+                                Analytics
                             </a>
 
                             {{-- Edit Button --}}
