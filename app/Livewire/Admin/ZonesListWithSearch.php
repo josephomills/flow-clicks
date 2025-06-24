@@ -16,15 +16,11 @@ class ZonesListWithSearch extends Component
 
     public function updatingSearch()
     {
-        // dd('Search term updated:', $this->search);
-        $this->resetPage(); // Reset to first page when search 
-
+        $this->resetPage(); // Reset to first page when search changes
     }
 
     public function render()
     {
-
-        logger()->debug('Searching for:', ['term' => $this->search]);
         $zones = Zone::query()
             ->withCount('denominations')
             ->when(

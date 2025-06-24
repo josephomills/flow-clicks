@@ -45,7 +45,7 @@
             </div>
             <!-- Title Field -->
             <div class="space-y-2">
-                <label for="title" class="text-sm font-semibold text-muted-foreground">Label (opitonal)</label>
+                <label for="title" class="text-sm font-semibold text-muted-foreground">Label (optional)</label>
                 <input type="text" wire:model="title" id="title" placeholder="My Awesome Link"
                     class="w-full h-10 rounded-md border border-input bg-background px-4 py-2" />
                 @error('title') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
@@ -66,7 +66,7 @@
                         this.$watch('selectedCount', () => {
                             this.$refs.selectedCountText.textContent = this.selectedCount > 0 ?
                                 `${this.selectedCount} selected` :
-                                'Select denominations';
+                                'Select denominations (optional)';
                         });
                     }
                 }" class="relative">
@@ -77,7 +77,7 @@
                             @if (auth()->user()->denomination)
                             {{ auth()->user()->denomination->name }}
                             @else
-                            Select denomination(s)
+                            Select denomination(s) (optional)
                             @endif
                         </span>
                         <x-heroicon-s-chevron-down class="h-4 w-4 transition-transform"
@@ -145,7 +145,13 @@
                         <div class="flex-1">
                             <div class="flex items-center gap-2 mb-2">
                                 <x-heroicon-o-link class="h-4 w-4 text-muted-foreground" />
-                                <span class="text-sm font-medium">{{ $linkData['denomination']->name }}:</span>
+                                <span class="text-sm font-medium">
+                                    @if ($linkData['denomination'])
+                                        {{ $linkData['denomination']->name }}:
+                                    @else
+                                        General Link:
+                                    @endif
+                                </span>
                                 <a href="{{ $linkData['full_url'] }}" target="_blank"
                                     class="text-sm text-blue-600 hover:underline">
                                     {{ $linkData['full_url'] }}

@@ -39,7 +39,7 @@
                             <div class="flex items-center gap-2">
                                 <x-heroicon-o-folder class="h-5 w-5 text-primary" />
                                 <h3 class="text-lg font-semibold text-foreground">
-                                    {{ $group->name }}
+                                    {{ $group->name }}  <span class="text-sm text-muted-foreground"> {{ $group->created_at->diffForHumans() }}</span>
                                 </h3>
                             </div>
                             {{-- <span class="text-sm text-muted-foreground">

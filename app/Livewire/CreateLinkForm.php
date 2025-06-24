@@ -30,7 +30,7 @@ class CreateLinkForm extends Component
         'original_url' => 'required|url',
         'description' => 'nullable|string|max:1000',
         'link_type_id' => 'required|exists:link_types,id',
-        'denominations' => 'required|array|min:1',
+        'denominations' => 'nullable|array',
         'denominations.*' => 'exists:denominations,id',
     ];
 
@@ -39,17 +39,13 @@ class CreateLinkForm extends Component
         'original_url.required' => 'The URL field is required.',
         'original_url.url' => 'Please enter a valid URL.',
         'link_type_id.required' => 'Please select a link type.',
-        'denominations.required' => 'Please select at least one denomination.',
-        'denominations.min' => 'Please select at least one denomination.',
     ];
 
     public function mount()
     {
         $this->domain = env('APP_URL');
-        // Set default denomination if user has one
-        if (Auth::user()->denomination_id) {
-            $this->denominations = [Auth::user()->denomination_id];
-        }
+        // Don't set default denomination - let user choose explicitly
+        $this->denominations = [];
 
         // Set default link type to first available
         $firstLinkType = LinkType::first();
@@ -75,53 +71,84 @@ class CreateLinkForm extends Component
 
             $this->created_links = [];
 
-            // Create individual links for each selected denomination
-            foreach ($this->denominations as $denominationId) {
-                $denomination = Denomination::find($denominationId);
-
-                // Check if user already has a link for this URL and denomination
+            // If no denominations selected, create a single link without denomination
+            if (empty($this->denominations)) {
+                // Check if user already has a link for this URL without denomination
                 $existingLink = Link::where('user_id', Auth::id())
                     ->where('original_url', $this->original_url)
-                    ->where('denomination_id', $denominationId)
+                    ->whereNull('denomination_id')
                     ->first();
 
-                if ($existingLink) {
-                    // Skip if link already exists for this denomination
-                    continue;
+                if (!$existingLink) {
+                    // Generate unique short URL for this user
+                    $shortUrl = $this->generateUniqueShortUrl();
+
+                    $link = Link::create([
+                        'user_id' => Auth::id(),
+                        'link_type_id' => $this->link_type_id,
+                        'link_group_id' => $this->link_group->id,
+                        'denomination_id' => null,
+                        'original_url' => $this->original_url,
+                        'short_url' => $shortUrl,
+                        'title' => $this->title,
+                        'description' => $this->description,
+                    ]);
+
+                    $this->created_links[] = [
+                        'link' => $link,
+                        'denomination' => null,
+                        'full_url' => $this->domain . '/click/' . $shortUrl,
+                    ];
                 }
+            } else {
+                // Create individual links for each selected denomination
+                foreach ($this->denominations as $denominationId) {
+                    $denomination = Denomination::find($denominationId);
 
-                // Generate unique short URL for this user
-                $shortUrl = $this->generateUniqueShortUrl();
+                    // Check if user already has a link for this URL and denomination
+                    $existingLink = Link::where('user_id', Auth::id())
+                        ->where('original_url', $this->original_url)
+                        ->where('denomination_id', $denominationId)
+                        ->first();
 
-                $link = Link::create([
-                    'user_id' => Auth::id(),
-                    'link_type_id' => $this->link_type_id,
-                    'link_group_id' => $this->link_group->id,
-                    'denomination_id' => $denominationId,
-                    'original_url' => $this->original_url,
-                    'short_url' => $shortUrl,
-                    'title' => $this->title,
-                    'description' => $this->description,
-                ]);
+                    if ($existingLink) {
+                        // Skip if link already exists for this denomination
+                        continue;
+                    }
 
-                $this->created_links[] = [
-                    'link' => $link,
-                    'denomination' => $denomination,
-                    'full_url' => $this->domain . '/click/' . $shortUrl . '/' . Denomination::find($denominationId)->slug,
-                ];
+                    // Generate unique short URL for this user
+                    $shortUrl = $this->generateUniqueShortUrl();
+
+                    $link = Link::create([
+                        'user_id' => Auth::id(),
+                        'link_type_id' => $this->link_type_id,
+                        'link_group_id' => $this->link_group->id,
+                        'denomination_id' => $denominationId,
+                        'original_url' => $this->original_url,
+                        'short_url' => $shortUrl,
+                        'title' => $this->title,
+                        'description' => $this->description,
+                    ]);
+
+                    $this->created_links[] = [
+                        'link' => $link,
+                        'denomination' => $denomination,
+                        'full_url' => $this->domain . '/click/' . $shortUrl . '/' . $denomination->slug,
+                    ];
+                }
             }
 
             DB::commit();
 
             if (empty($this->created_links)) {
-                session()->flash('warning', 'All selected denominations already have links for this URL.');
+                session()->flash('warning', 'Link already exists for this URL.');
                 return;
             }
 
             session()->flash('success', 'Short links created successfully!');
 
-            // Redirect to the analytics page of the created link group
-            return redirect()->route('link-group.show', ['analytic' => $this->link_group->id]);
+            // Show results instead of redirecting
+            $this->showResults = true;
         } catch (\Exception $e) {
             DB::rollBack();
             dd($e);
@@ -155,12 +182,8 @@ class CreateLinkForm extends Component
 
         $this->original_url = 'https://';
 
-        // Reset to user's default denomination
-        if (Auth::user()->denomination_id) {
-            $this->denominations = [Auth::user()->denomination_id];
-        } else {
-            $this->denominations = [];
-        }
+        // Reset denominations to empty - don't auto-select user's denomination
+        $this->denominations = [];
     }
 
     public function copyToClipboard($url)
