@@ -21,15 +21,15 @@
     <div class="mb-8">
         <div class="flex space-x-2">
             <a href="{{ route('admin.analytics.index', ['period' => 1]) }}" 
-               class="px-6 py-2 rounded-full text-sm font-medium transition-colors duration-200 {{ $selectedPeriod == 1 ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
+               class="px-6 py-2 rounded-full text-sm font-medium  {{ $selectedPeriod == 1 ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
                 Today
             </a>
             <a href="{{ route('admin.analytics.index', ['period' => 7]) }}" 
-               class="px-6 py-2 rounded-full text-sm font-medium transition-colors duration-200 {{ $selectedPeriod == 7 ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
+               class="px-6 py-2 rounded-full text-sm font-medium  {{ $selectedPeriod == 7 ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
                 Last 7 days
             </a>
             <a href="{{ route('admin.analytics.index', ['period' => 30]) }}" 
-               class="px-6 py-2 rounded-full text-sm font-medium transition-colors duration-200 {{ $selectedPeriod == 30 ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
+               class="px-6 py-2 rounded-full text-sm font-medium  {{ $selectedPeriod == 30 ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
                 Last 30 days
             </a>
             <button class="px-6 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">
