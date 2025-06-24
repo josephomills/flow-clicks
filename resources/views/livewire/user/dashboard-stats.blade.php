@@ -31,7 +31,7 @@
                     </p>
                     <h3 class="text-3xl font-bold">{{ $stat['value'] }}</h3>
                 </div>
-                <div class="bg-muted rounded-md  aspect-square p-2">{!! $stat['icon'] !!}</div>
+                <div class="bg-muted rounded-full p-3">{!! $stat['icon'] !!}</div>
             </div>
             
         </div>

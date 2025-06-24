@@ -1,22 +1,21 @@
 <div class="m-0">
-
-    {{-- {/* Search and filters */} --}}
+    {{-- Search and filters --}}
     <div class="bg-background p-4 rounded-md border mb-6">
         <div class="flex flex-col md:flex-row gap-4">
             <div class="flex-1 relative">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <Search class="h-4 w-4 text-muted-foreground" />
                 </div>
-                <input type="text" wire:model="search" placeholder="Search Zones..."
+                <input 
+                    type="text" 
+                    wire:model.live.debounce.300ms="search" 
+                    placeholder="Search Zones..."
                     class="pl-10 w-full h-10 rounded-md border border-input bg-background px-3 py-2"
-                    disabled={{$zones->isEmpty()}} />
-
+                />
             </div>
-
-
         </div>
     </div>
-    {{-- {/* Categories Table */} --}}
+    
     @if ($zones->isEmpty())
         {{-- Empty state --}}
         <div class="p-8 text-center">
@@ -34,7 +33,7 @@
             </div>
         </div>
     @else
-        {{-- Grouped Links Display --}}
+        {{-- Zones Table --}}
         <div class="bg-background rounded-md border overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full">
@@ -49,20 +48,14 @@
                     </thead>
                     <tbody class="divide-y text-sm">
                         @foreach ($zones as $zone)
-
-
-                            <tr key={{$zone->id}} class="hover:bg-muted/20">
+                            <tr key="{{ $zone->id }}" class="hover:bg-muted/20">
                                 <td class="flex flex-row gap-2 items-center px-4 py-4 font-medium text-sm">
                                     <x-heroicon-o-globe-alt class="h-4 w-4 text-gray-500" />
-                                    {{$zone->name}}
+                                    {{ $zone->name }}
                                 </td>
-                                <td class="px-4 py-4 text-muted-foreground">{{$zone->slug}}</td>
-
-                                <td class="px-4 py-4 text-muted-foreground">{{$zone->country}}</td>
-                                <td class="px-4 py-4 text-muted-foreground">{{$zone->denominations_count}}</td>
-
-
-
+                                <td class="px-4 py-4 text-muted-foreground">{{ $zone->slug }}</td>
+                                <td class="px-4 py-4 text-muted-foreground">{{ $zone->country }}</td>
+                                <td class="px-4 py-4 text-muted-foreground">{{ $zone->denominations_count }}</td>
                                 <td class="px-4 py-4">
                                     <div class="flex items-center space-x-2">
                                         {{-- Edit --}}
@@ -70,10 +63,10 @@
                                             class="p-1 rounded-md hover:bg-muted" title="Edit">
                                             <x-heroicon-c-pencil class="h-4 w-4" />
                                         </a>
-
                                         {{-- Delete --}}
-                                        <form method="POST" action="{{ route('admin.zones.destroy', $zone->id) }}"
-                                            onsubmit="return confirm('Are you sure you want to delete this denomination?');">
+                                        <form method="POST" 
+                                              action="{{ route('admin.zones.destroy', $zone->id) }}"
+                                              onsubmit="return confirm('Are you sure you want to delete this zone?');">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="p-1 rounded-md hover:bg-muted text-red-500"
@@ -83,20 +76,15 @@
                                         </form>
                                     </div>
                                 </td>
-
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
             <!-- Pagination -->
-
             <div class="mt-4">
                 {{ $zones->links() }}
             </div>
-
         </div>
     @endif
-
-
 </div>
