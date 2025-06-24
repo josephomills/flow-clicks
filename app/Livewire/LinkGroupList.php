@@ -15,7 +15,7 @@ class LinkGroupList extends Component
     {
         $user = Auth::user();
         if ($user->can('viewAny', LinkGroup::class)) {
-            $this->linkGroups = LinkGroup::with('user', 'links', 'links.denomination')->get();
+            $this->linkGroups = LinkGroup::with('user', 'links', 'links.denomination')->orderBy('created_at', 'desc')->get();
         } else {
             $this->linkGroups = LinkGroup::with('user', 'links', 'links.denomination')
                 ->where('user_id', $user->id)
