@@ -3,36 +3,32 @@
 
 @section('top-action')
     <a href="{{ url()->previous() }}"
-        class="flex flex-row items-center text-sm bg-primary text-primary-foreground py-3 px-4 rounded-md text-center hover:bg-primary/90">
-        <x-heroicon-s-arrow-left class="mr-1 h-5 w-5" />
+        class="flex items-center text-sm bg-primary text-white py-3 px-4 rounded-md hover:bg-primary/80">
+        <svg class="mr-1 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
         Go Back
     </a>
 @endsection
 
 @section('content')
 <div class="container mx-auto px-6 py-8">
-    <!-- Header -->
-    {{-- <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900">Analytics</h1>
-        <p class="text-gray-600 mt-2">Track the performance of your links</p>
-    </div> --}}
-
     <!-- Period Selection -->
     <div class="mb-8">
         <div class="flex space-x-2">
             <a href="{{ route('admin.analytics.index', ['period' => 1]) }}" 
-               class="px-6 py-2 rounded-full text-sm font-medium  {{ $selectedPeriod == 1 ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
+               class="px-6 py-2 rounded-full text-sm font-medium <?php echo $selectedPeriod == 1 ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'; ?>">
                 Today
             </a>
             <a href="{{ route('admin.analytics.index', ['period' => 7]) }}" 
-               class="px-6 py-2 rounded-full text-sm font-medium  {{ $selectedPeriod == 7 ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
+               class="px-6 py-2 rounded-full text-sm font-medium <?php echo $selectedPeriod == 7 ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'; ?>">
                 Last 7 days
             </a>
             <a href="{{ route('admin.analytics.index', ['period' => 30]) }}" 
-               class="px-6 py-2 rounded-full text-sm font-medium  {{ $selectedPeriod == 30 ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
+               class="px-6 py-2 rounded-full text-sm font-medium <?php echo $selectedPeriod == 30 ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'; ?>">
                 Last 30 days
             </a>
-            <button class="px-6 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">
+            <button class="px-6 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200">
                 Custom
             </button>
         </div>
@@ -60,7 +56,6 @@
                 <div>
                     <p class="text-sm text-gray-500">Facebook Clicks</p>
                     <h3 class="text-2xl font-bold mt-1">{{ number_format($facebookClicks) }}</h3>
-
                 </div>
                 <div class="p-2 rounded-md">
                     <svg class="w-8 h-8" width="800px" height="800px" viewBox="0 0 48 48" version="1.1"
@@ -81,10 +76,9 @@
                 <div>
                     <p class="text-sm text-gray-500">YouTube Clicks</p>
                     <h3 class="text-2xl font-bold mt-1">{{ number_format($youtubeClicks) }}</h3>
-
                 </div>
                 <div class="p-2 rounded-md">
-                    <svg class="w-8 h-8 text-red-600" width="800px" height="800px" viewBox="0 -3 20 20" version="1.1"
+                    <svg class="w-8 h-8" width="800px" height="800px" viewBox="0 -3 20 20" version="1.1"
                         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                         <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                             <g id="Dribbble-Light-Preview" transform="translate(-300.000000, -7442.000000)" fill="#ff0000">
@@ -104,14 +98,14 @@
                 <div>
                     <p class="text-sm text-gray-500">Total Clicks</p>
                     <h3 class="text-2xl font-bold mt-1">{{ number_format($totalClicks) }}</h3>
-                    
                 </div>
-                  <div class="bg-green-100 p-2 rounded-md">
-                        <x-heroicon-s-chart-bar class="h-5 w-5 text-green-600" />
-                    </div>
+                <div class="bg-green-100 p-2 rounded-md">
+                    <svg class="h-5 w-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                </div>
             </div>
         </div>
-
     </div>
 
     <!-- Clicks by Device Type (Detailed) -->
@@ -121,12 +115,12 @@
         </div>
         <div class="mb-4">
             <p class="text-3xl font-bold text-gray-900">{{ number_format($totalClicks) }}</p>
-            <p class="text-sm {{ $totalChange >= 0 ? 'text-green-600' : 'text-red-600' }}">
-                Today {{ $totalChange >= 0 ? '+' : '' }}{{ number_format($totalChange, 1) }}%
+            <p class="text-sm <?php echo $totalChange >= 0 ? 'text-green-600' : 'text-red-600'; ?>">
+                Today <?php echo $totalChange >= 0 ? '+' : ''; ?>{{ number_format($totalChange, 1) }}%
             </p>
         </div>
         
-        @php
+        <?php
             $deviceData = [];
             foreach($recentClicks as $click) {
                 $deviceType = 'Unknown';
@@ -148,7 +142,7 @@
             $desktopPercentage = $totalDeviceClicks > 0 ? round(($deviceData['Desktop'] ?? 0) / $totalDeviceClicks * 100) : 0;
             $mobilePercentage = $totalDeviceClicks > 0 ? round(($deviceData['Mobile'] ?? 0) / $totalDeviceClicks * 100) : 0;
             $tabletPercentage = $totalDeviceClicks > 0 ? round(($deviceData['Tablet'] ?? 0) / $totalDeviceClicks * 100) : 0;
-        @endphp
+        ?>
         
         <div class="space-y-4">
             <!-- Desktop -->
@@ -159,10 +153,10 @@
                 </div>
                 <div class="flex-1 mx-4">
                     <div class="w-full bg-gray-200 rounded-full h-2">
-                        <div class="bg-blue-500 h-2 rounded-full" style="width: {{ $desktopPercentage }}%"></div>
+                        <div class="bg-blue-500 h-2 rounded-full" style="width: <?php echo $desktopPercentage; ?>%"></div>
                     </div>
                 </div>
-                <span class="text-sm font-medium text-gray-900 w-12 text-right">{{ $desktopPercentage }}%</span>
+                <span class="text-sm font-medium text-gray-900 w-12 text-right"><?php echo $desktopPercentage; ?>%</span>
             </div>
             
             <!-- Mobile -->
@@ -173,10 +167,10 @@
                 </div>
                 <div class="flex-1 mx-4">
                     <div class="w-full bg-gray-200 rounded-full h-2">
-                        <div class="bg-green-500 h-2 rounded-full" style="width: {{ $mobilePercentage }}%"></div>
+                        <div class="bg-green-500 h-2 rounded-full" style="width: <?php echo $mobilePercentage; ?>%"></div>
                     </div>
                 </div>
-                <span class="text-sm font-medium text-gray-900 w-12 text-right">{{ $mobilePercentage }}%</span>
+                <span class="text-sm font-medium text-gray-900 w-12 text-right"><?php echo $mobilePercentage; ?>%</span>
             </div>
             
             <!-- Tablet -->
@@ -187,10 +181,10 @@
                 </div>
                 <div class="flex-1 mx-4">
                     <div class="w-full bg-gray-200 rounded-full h-2">
-                        <div class="bg-yellow-500 h-2 rounded-full" style="width: {{ $tabletPercentage }}%"></div>
+                        <div class="bg-yellow-500 h-2 rounded-full" style="width: <?php echo $tabletPercentage; ?>%"></div>
                     </div>
                 </div>
-                <span class="text-sm font-medium text-gray-900 w-12 text-right">{{ $tabletPercentage }}%</span>
+                <span class="text-sm font-medium text-gray-900 w-12 text-right"><?php echo $tabletPercentage; ?>%</span>
             </div>
         </div>
     </div>
