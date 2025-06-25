@@ -34,53 +34,71 @@
             @foreach ($groupsWithLinks as $group)
                 <div class="mt-10">
                     {{-- Group Header --}}
-                    <div class="flex items-center justify-between mb-3">
-                        <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+                    <div
+                        class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 p-4 bg-muted/20 rounded-lg">
+                        <!-- Left Section - Group Info -->
+                        <div class="flex flex-col gap-2">
+                            <!-- Group Name and Creation Date -->
                             <div class="flex items-center gap-2">
                                 <x-heroicon-o-folder class="h-5 w-5 text-primary" />
                                 <h3 class="text-lg font-semibold text-foreground">
-                                    {{ $group->name }}  <span class="text-sm text-muted-foreground"> {{ $group->created_at->diffForHumans() }}</span>
+                                    {{ $group->name }}
                                 </h3>
+                                <span class="text-sm text-muted-foreground hidden sm:inline">
+                                    ({{ $group->created_at->diffForHumans() }})
+                                </span>
                             </div>
-                            {{-- <span class="text-sm text-muted-foreground">
-                                Owner: {{ $group->user->name }} &middot; Role: {{ $group->user->role }}
-                            </span> --}}
+
+                            <!-- Meta Information -->
+                            <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
+                                <span
+                                    class="inline-flex items-center rounded-full bg-muted border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2  text-secondary-foreground hover:bg-secondary/80 gap-1.5">
+                                    <x-heroicon-o-user class="h-3 w-3" />
+                                    <span>Created By: {{ $group->user->name }}</span>
+                                </span>
+                                <span
+                                    class="inline-flex items-center rounded-full bg-muted border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2  text-secondary-foreground hover:bg-secondary/80 gap-1.5">
+                                    <x-heroicon-o-clock class="h-3 w-3" />
+                                    <span>Created On: {{ $group->created_at->format('l, F j, Y') }}</span>
+                                </span>
+                              {{-- <span>Role: {{ $group->user->role }}</span>
+                                <span class="sm:hidden">Created {{ $group->created_at->diffForHumans() }}</span> --}}
+                            </div>
                         </div>
 
-           
-                        <div class="flex items-center gap-2">
-                            {{-- Analytics Button --}}
+                        <!-- Right Section - Actions -->
+                        <div class="flex items-center gap-2 sm:gap-3">
+                            <!-- Analytics Button -->
                             <a href="{{ route('link-group.show', ['linkGroup' => $group->id]) }}"
-                               class="inline-flex items-center gap-1.5 rounded-full border border-muted bg-muted px-3 py-1.5 text-sm font-medium text-muted-foreground hover:bg-muted/80 transition-colors"
+                                class="inline-flex items-center gap-1.5 rounded-full border border-muted bg-muted px-3 py-1.5 text-sm font-medium text-muted-foreground hover:bg-muted/80 transition-colors"
                                 title="View Analytics">
-                                <x-heroicon-o-chart-bar  class="w-4 h-4 mr-2 text-kanik-brown-500" />
-                                Analytics
+                                <x-heroicon-o-chart-bar class="w-4 h-4 text-kanik-brown-500" />
+                                <span class="hidden sm:inline">Analytics</span>
                             </a>
 
-                            {{-- Edit Button --}}
+                            <!-- Edit Button -->
                             <a href="{{ route('link-group.edit', ['linkGroup' => $group->id]) }}"
-                               class="inline-flex items-center justify-center rounded-full bg-muted px-2.5 py-2 text-muted-foreground hover:bg-muted/80 transition"
-                               title="Edit Group">
+                                class="inline-flex items-center justify-center rounded-full bg-muted p-2 text-muted-foreground hover:bg-muted/80 transition"
+                                title="Edit Group">
                                 <x-heroicon-o-pencil class="h-4 w-4" />
                             </a>
 
-                            {{-- Delete Button --}}
+                            <!-- Delete Button -->
                             <button wire:click="confirmDeleteGroup({{ $group->id }})"
-                                    onclick="confirm('Are you sure you want to delete this group?') || event.stopImmediatePropagation()"
-                                    class="inline-flex items-center justify-center rounded-full bg-muted px-2.5 py-2 text-red-500 hover:bg-muted/80 transition"
-                                    title="Delete Group">
+                                onclick="confirm('Are you sure you want to delete this group?') || event.stopImmediatePropagation()"
+                                class="inline-flex items-center justify-center rounded-full bg-muted p-2 text-red-500 hover:bg-muted/80 transition"
+                                title="Delete Group">
                                 <x-heroicon-o-trash class="h-4 w-4" />
                             </button>
                         </div>
                     </div>
-
                     {{-- Group Links Table --}}
                     <div class="bg-background border rounded-md overflow-hidden">
                         <div class="overflow-x-auto">
                             <table class="w-full text-sm">
                                 <thead class="bg-muted/50 text-muted-foreground">
                                     <tr>
-                                        <th class="text-left px-4 py-2 font-medium">Title</th>
+                                        <th class="text-left px-4 py-2 font-medium">Denomination</th>
                                         <th class="text-left px-4 py-2 font-medium">Short URL</th>
                                         <th class="text-left px-4 py-2 font-medium">Type</th>
                                         <th class="text-left px-4 py-2 font-medium">Clicks</th>
@@ -91,7 +109,7 @@
                                     @foreach ($group->links as $link)
                                         <tr class="hover:bg-muted/20">
                                             <td class="px-4 py-3 text-foreground">
-                                                {{ $link->title ?? 'Untitled' }}
+                                                {{ $link->denomination->name ?? 'N/A' }}
                                             </td>
                                             <td class="px-4 py-3">
                                                 <div class="flex items-center gap-2">
@@ -128,8 +146,7 @@
                                             </td>
                                             <td class="px-4 py-3">
                                                 <div class="flex items-center gap-2">
-                                                    <button 
-                                                        x-data="{ sharing: false }"
+                                                    <button x-data="{ sharing: false }"
                                                         @click="
                                                             sharing = true;
                                                             const shareData = {
@@ -137,7 +154,7 @@
                                                                 text: 'Check out this link: {{ $link->title ?? 'Shared Link' }}',
                                                                 url: '{{ env('APP_URL') }}/click/{{ $link->short_url }}{{ $link->denomination ? '/' . $link->denomination->slug : '' }}'
                                                             };
-                                                            
+
                                                             if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
                                                                 navigator.share(shareData)
                                                                     .then(() => console.log('Shared successfully'))
@@ -173,7 +190,7 @@
                                                         title="Share link">
                                                         <x-heroicon-o-share class="h-4 w-4" />
                                                     </button>
-                                                    
+
                                                     <button wire:click="confirmDelete({{ $link->id }})"
                                                         onclick="confirm('Are you sure?') || event.stopImmediatePropagation()"
                                                         class="p-1.5 rounded-md hover:bg-muted text-red-500"
