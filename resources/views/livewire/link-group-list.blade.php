@@ -35,7 +35,7 @@
                 <div class="mt-10">
                     {{-- Group Header --}}
                     <div
-                        class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 p-4 bg-muted/20 rounded-lg">
+                        class="flex flex-col justify-between gap-3 mb-4 p-4 bg-muted/20 rounded-lg">
                         <!-- Left Section - Group Info -->
                         <div class="flex flex-col gap-2">
                             <!-- Group Name and Creation Date -->
@@ -53,12 +53,12 @@
                             <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
                                 <span
                                     class="flex items-center rounded-full bg-muted border px-2.5 py-0.5 text-xs font-semibold gap-1.5">
-                                    {{-- <x-heroicon-o-user class="h-3 w-3" /> --}}
+                                    <x-heroicon-o-user class="h-3 w-3" />
                                     <span>Created By: {{ $group->user->name }}</span>
                                 </span>
                                 <span
                                     class="flex items-center rounded-full bg-muted border px-2.5 py-0.5 text-xs font-semibold gap-1.5">
-                                    {{-- <x-heroicon-o-clock class="h-3 w-3" /> --}}
+                                    <x-heroicon-o-clock class="h-3 w-3" />
                                     <span>Created On: {{ $group->created_at->format('l, F j, Y') }}</span>
                                 </span>
               
