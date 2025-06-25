@@ -124,7 +124,7 @@ class UrlRedirectController extends Controller
             // Log the click with the real platform and browser
             $newClick = [
                 'link_id' => $identified_link->id,
-                'denomination_id' => $identified_denomination ? $identified_denomination->id : null, // Handle null denomination
+                'denomination_id' => $identified_denomination ? $identified_denomination->id : NULL, // Handle null denomination
                 'link_type_id' => $identified_link->link_type->id,
                 'device_type' => $this->getDeviceType(),
                 'ip_address' => $currentIp,

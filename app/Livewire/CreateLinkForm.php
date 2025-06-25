@@ -146,12 +146,16 @@ class CreateLinkForm extends Component
             }
 
             session()->flash('success', 'Short links created successfully!');
+             // Redirect to the analytics page of the created link group
+            return redirect()->route('link-group.show', ['linkGroup' => $this->link_group->id]);
 
             // Show results instead of redirecting
-            $this->showResults = true;
+            // $this->showResults = true;
         } catch (\Exception $e) {
             DB::rollBack();
-            dd($e);
+           if(env('APP_ENV')=='local'){
+             dd($e);
+           }
             session()->flash('error', 'An error occurred while creating the links. Please try again.');
             Log::error('Link creation error: ' . $e->getMessage());
         }
