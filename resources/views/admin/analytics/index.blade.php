@@ -74,6 +74,8 @@
 
         <!-- Analytics Type Dropdown -->
         <div class="mb-8">
+            <div class="bg-white rounded-lg border border-gray-200 p-6">
+                   <h2 class="font-bold text-xl mb-4">Choose Analytics Type</h2>
             <div class="relative flex flex-col md:flex-row gap-4">
                 <form method="GET" action="{{ route('admin.analytics.index') }}" class="flex flex-col md:flex-row gap-4 w-full" id="analyticsTypeForm">
                     <input type="hidden" name="from_date" value="{{ $fromDate }}">
@@ -83,6 +85,7 @@
                      <label for="analyticsType" class="block text-sm font-medium text-gray-700 mb-1">Analytics Type</label>
                     <select name="analytics_type" id="analyticsType" onchange="this.form.submit()"
                         class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded-md leading-tight focus:outline-none focus:ring-primary focus:border-primary">
+                          <option value="" disabled>-- Select Analytics Type --</option>
                         <option value="denomination" {{ $analyticsType == 'denomination' ? 'selected' : '' }}>Denominations Analytics</option>
                         <option value="zone" {{ $analyticsType == 'zone' ? 'selected' : '' }}>Zones Analytics</option>
                     </select>
@@ -93,7 +96,7 @@
                         <label for="analyticsId" class=" text-sm font-medium text-gray-700 mb-1">Select Denomination</label>
                         <select name="analytics_id" id="analyticsId" onchange="this.form.submit()"
                             class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded-md leading-tight focus:outline-none focus:ring-primary focus:border-primary">
-                            <option value="">-- Select Denomination --</option>
+                            <option value=""disabled >-- Select Denomination --</option>
                             @foreach($denominations as $denomination)
                                 <option value="{{ $denomination->id }}" {{ $analyticsId == $denomination->id ? 'selected' : '' }}>{{ $denomination->name }}</option>
                             @endforeach
@@ -104,7 +107,7 @@
                         <label for="analyticsId" class="block text-sm font-medium text-gray-700 mb-1">Select Zone</label>
                         <select name="analytics_id" id="analyticsId" onchange="this.form.submit()"
                             class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded-md leading-tight focus:outline-none focus:ring-primary focus:border-primary">
-                            <option value="">-- Select Zone --</option>
+                            <option value="" disabled>-- Select Zone --</option>
                             @foreach($zones as $zone)
                                 <option value="{{ $zone->id }}" {{ $analyticsId == $zone->id ? 'selected' : '' }}>{{ $zone->name }}</option>
                             @endforeach
@@ -113,6 +116,7 @@
                     @endif
                 </form>
             </div>
+        </div>
         </div>
 
         <!-- Analytics Content Sections -->
